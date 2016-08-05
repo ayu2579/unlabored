@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "riverleo",
+    "password": "1",
+    "database": "template1",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "riverleo",
+    "password": "1",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "fjzvnpacrsepfb",
+    "password": "MVREli0dJiT3EZc77M_NcTVOLL",
+    "database": "d20kf9qqk3165v",
+    "host": "ec2-54-221-201-244.compute-1.amazonaws.com",
+    "dialect": "postgres"
+  }
+}
