@@ -1,7 +1,9 @@
 import React from 'react';
 
 const WelcomeContainer = () => (
-  <div>welcome</div>
+  <div id="welcome" className="welcome-container">
+    Welcome
+  </div>
 );
 
 export default WelcomeContainer;

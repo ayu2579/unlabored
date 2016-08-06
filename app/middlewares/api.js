@@ -1,10 +1,6 @@
 import _ from 'lodash';
-import superagent from 'superagent';
-import superagentAsPromised from 'superagent-as-promised';
+import axios from 'axios';
 import { contains } from 'underscore.string';
-import { noCache } from '../contrib';
-
-// const API_ROOT = 'http://localhost:3000';
 
 const api = store => next => action => {
   const { path } = _.get(action, 'payload', {});
@@ -22,7 +18,7 @@ const api = store => next => action => {
   }
 
   const dist = _.get(action.payload, 'dist', 'data');
-  const files = _.get(action.payload, 'files');
+  const data = _.get(action.payload, 'files');
   const source = _.get(action.payload, 'source');
   const status = _.get(action.payload, 'status', 'status');
   const method = _.toLower(_.get(action.payload, 'method', 'get'));
@@ -30,12 +26,6 @@ const api = store => next => action => {
   const headers = _.get(action.payload, 'headers', {});
 
   const fullPath = path;
-  // if (startsWith(path, 'http')) {
-  //   fullPath = path;
-  // } else {
-  //   var _path = startsWith(path, '/') ? path : '/' + path;
-  //   fullPath = sprintf('%s%s', API_ROOT, _path);
-  // }
 
   /* eslint-disable no-param-reassign */
   delete action.payload.dist;
@@ -49,60 +39,20 @@ const api = store => next => action => {
 
   next(actionWith({ [status]: 'request' }));
 
-  superagentAsPromised(superagent);
-  if (!_.isEmpty(files)) {
-    let req = superagent[method](path);
+  const req = axios(fullPath, {
+    method, headers, params, data,
+  });
 
-    if (_.isArray(files)) {
-      _.forEach(files, file => (req = req.attach('files[]', file, file.name)));
-    }
-
-    if (_.isPlainObject(files)) {
-      _.forEach(files, (file, key) => (req = req.attach(key, file, file.name)));
-    }
-
-    _.forEach(params, (value, key) => (req = req.field(key, value)));
-    _.forEach(headers, (value, key) => (req = req.set(key, value)));
-
-    return req.withCredentials().use(noCache)
-    .then(response => {
-      const payload = { [status]: 'success' };
-      const body = _.isEmpty(source) ? response.body : _.get(response.body, source);
-
-      _.set(payload, dist, body);
-
-      store.dispatch(actionWith(payload));
-
-      return response;
-    })
-    .catch(error => {
-      store.dispatch(actionWith({ [status]: 'failure', error }));
-
-      return error;
-    });
-  }
-
-  const func = _.isEqual(method, 'delete') ? 'del' : method;
-  let req = superagent[func](fullPath);
-
-  if (_.isEqual(method, 'get')) {
-    req = req.query(params);
-  } else {
-    req = req.send(params);
-  }
-
-  return req.withCredentials().use(noCache)
-  .then(response => {
+  return req.then(response => {
     const payload = { [status]: 'success' };
-    const _response = _.isEmpty(source) ? response.body : _.get(response.body, source);
+    const body = _.isEmpty(source) ? response.body : _.get(response.body, source);
 
-    _.set(payload, dist, _response);
+    _.set(payload, dist, body);
 
     store.dispatch(actionWith(payload));
 
-    return _response;
-  })
-  .catch(error => {
+    return response;
+  }).catch(error => {
     store.dispatch(actionWith({ [status]: 'failure', error }));
 
     return error;

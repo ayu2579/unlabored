@@ -1,16 +1,21 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRedirect } from 'react-router';
 import {
-  AppContainer, EvalContainer, FeedContainer, NoMatchContainer,
-  ProfileContainer, WelcomeContainer,
+  AppContainer, FeedContainer, NoMatchContainer,
+  ProfileContainer, RatingContainer, WelcomeContainer,
 } from './containers';
+import * as profile from './containers/profile';
 
 const routes = (
   <Route path="/" component={AppContainer}>
-    <IndexRoute component={FeedContainer} />
-    <Route path="eval" component={EvalContainer} />
-    <Route path="feed" component={FeedContainer} />
-    <Route path="profile" component={ProfileContainer} />
+    <IndexRedirect to="feeds" />
+    <Route path="ratings" component={RatingContainer} />
+    <Route path="feeds" component={FeedContainer} />
+    <Route path="@:username" component={ProfileContainer}>
+      <IndexRedirect to="feeds" />
+      <Route path="feeds" component={profile.FeedContainer} />>
+      <Route path="ratings" component={profile.RatingContainer} />>
+    </Route>
     <Route path="welcome" component={WelcomeContainer} />
     <Route path="*" component={NoMatchContainer} />
   </Route>

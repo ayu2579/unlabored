@@ -1,3 +1,11 @@
-html {
-  background-color: red;
-}
+@import './reset.scss';
+
+// Components
+@import './components/contrib/tab-bar.scss';
+
+// Containers
+@import './containers/app-container.scss';
+@import './containers/feed-container.scss';
+@import './containers/no-match-container.scss';
+@import './containers/rating-container.scss';
+@import './containers/welcome-container.scss';

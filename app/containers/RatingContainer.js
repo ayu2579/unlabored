@@ -1,7 +1,9 @@
 import React from 'react';
 
 const RatingContainer = () => (
-  <div>Eval</div>
+  <div id="rating" className="react-container">
+    Rating
+  </div>
 );
 
 export default RatingContainer;

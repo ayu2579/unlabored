@@ -1,0 +1,14 @@
+#tab-bar {
+  bottom: 0;
+  min-height: 56px;
+  position: fixed;
+  background-color: black;
+
+  .btn {
+    color: rgba(255, 255, 255, 0.5);
+
+    &.active {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}

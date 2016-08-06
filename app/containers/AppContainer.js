@@ -1,7 +1,12 @@
 import React, { PropTypes } from 'react';
+import { TabBar } from '../components/contrib';
 
 const AppContainer = ({ children }) => (
-  <div>{children}</div>
+  <div id="app" className="react-root-container">
+    {children}
+
+    <TabBar />
+  </div>
 );
 
 AppContainer.propTypes = {

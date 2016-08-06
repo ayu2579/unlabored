@@ -1,19 +1,23 @@
+import _ from 'lodash';
 import path from 'path';
-
 import React from 'react';
 import express from 'express';
+import compression from 'compression';
+import expressUserAgent from 'express-useragent';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
 import routes from './app/routes';
-import { mapRoutesToApp } from './routers';
+import { routesMapToApp } from './routers';
 
 const app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-mapRoutesToApp(app);
+routesMapToApp(app);
 
+app.use(compression());
+app.use(expressUserAgent.express());
 app.use(express.static(path.join(__dirname, '/public')));
 
 // views is directory for all template files
@@ -29,7 +33,9 @@ app.get('/*', (req, res) => {
     }
 
     const __html = renderToString(<RouterContext {...renderProps} />);
-    res.status(200).render('pages/index', { __html });
+    const browser = _.kebabCase(req.useragent.browser);
+
+    res.status(200).render('pages/index', { __html, browser });
   });
 });
 

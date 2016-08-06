@@ -1,0 +1,41 @@
+$font-size: 16px;
+$font-color: black;
+
+html,
+body,
+#main,
+#app,
+.react-container {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+.panel,
+.panel > .panel-heading,
+.panel > .panel-body,
+.panel > .panel-footer,
+.btn-group,
+.btn {
+  &, &.active,
+  &:hover, &:focus, &:active, &:visited, &:active:focus,
+  .active:hover, .active:focus, .active:active, .active:visited {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: $font-color;
+    font-size: $font-size;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.react-container {
+  overflow: auto;
+  padding-bottom: 54px;
+}
