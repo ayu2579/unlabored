@@ -1,6 +1,23 @@
 <title>Unlabored</title>
 <meta name="viewport" content="width=device-width, user-scalable=no" />
-<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="/stylesheets/app.css" />
-<script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/public/vendor/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/public/stylesheets/app.css" />
+<script type="text/javascript" src="/public/vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/public/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1325894740784862',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>

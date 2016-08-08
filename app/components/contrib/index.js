@@ -1,2 +1,2 @@
 export { default as Avatar } from './Avatar';
-export { default as TabBar } from './TabBar';
+export { default as GlobalNavbar } from './GlobalNavbar';

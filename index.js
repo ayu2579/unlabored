@@ -3,22 +3,26 @@ import path from 'path';
 import React from 'react';
 import express from 'express';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import expressUserAgent from 'express-useragent';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
 import routes from './app/routes';
-import { routesMapToApp } from './routers';
+import { mapRoutesToApp } from './routers';
+import { loginUser } from './middlewares';
 
-const app = express();
+export const app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-routesMapToApp(app);
+mapRoutesToApp(app);
 
 app.use(compression());
+app.use(cookieParser());
+app.use(loginUser());
 app.use(expressUserAgent.express());
-app.use(express.static(path.join(__dirname, '/public')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // views is directory for all template files
 app.set('views', path.join(__dirname, '/views'));

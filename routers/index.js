@@ -1,1 +1,1 @@
-export { default as routesMapToApp } from './routesMapToApp';
+export { default as mapRoutesToApp } from './mapRoutesToApp';
