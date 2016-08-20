@@ -5,10 +5,13 @@ import { contains } from 'underscore.string';
 import { User } from '../models';
 
 export default () => (req, res, next) => {
-  if (contains(req.url, '/public/')) { return next(); }
-  if (_.isEmpty(req.cookies.jwt)) { return next(); }
+  const { headers, cookies } = req;
+  const token = headers.jwt || cookies.jwt;
 
-  jwt.verify(req.cookies.jwt, cert.secret, (err, decoded) => {
+  if (_.isEmpty(token)) { return next(); }
+  if (contains(req.url, '/public/')) { return next(); }
+
+  jwt.verify(token, cert.secret, (err, decoded) => {
     if (err) { return next(); }
 
     User.findOne({ where: { id: decoded.id } })

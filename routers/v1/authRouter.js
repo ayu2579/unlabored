@@ -59,7 +59,9 @@ router.get('/facebook/callback', (req, res) => {
         User.findOrCreate({ where: { fbId: id } })
         .spread(user => {
           user.fbId = id;
+          /* eslint-disable camelcase */
           user.fbAccessToken = access_token;
+          /* eslint-enable camelcase */
 
           if (_.isEmpty(user.username)) {
             user.username = name;
@@ -84,9 +86,8 @@ router.get('/facebook/callback', (req, res) => {
           );
         });
       });
-
     });
-  }).catch((error) => res.redirect('/explore'));
+  }).catch(() => res.redirect('/explore'));
 });
 
 export default router;

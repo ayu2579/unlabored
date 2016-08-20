@@ -6,15 +6,15 @@ const GlobalNavbar = () => (
   <Navbar id="global-navbar" fixedTop>
     <Nav pullLeft>
       <LinkContainer to="/explore">
-        <NavItem><strong>선택</strong>하거나</NavItem>
+        <NavItem>골라보든가</NavItem>
       </LinkContainer>
       <LinkContainer to="/@riverleo">
-        <NavItem><strong>너꺼</strong>보거나</NavItem>
+        <NavItem>내꺼보든나</NavItem>
       </LinkContainer>
     </Nav>
     <Nav pullRight>
       <LinkContainer to="/new">
-        <NavItem><strong>새거</strong>올리든가</NavItem>
+        <NavItem>새로올리든가</NavItem>
       </LinkContainer>
     </Nav>
   </Navbar>

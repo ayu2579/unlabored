@@ -33,7 +33,7 @@ gulp.task('style', function () {
 
 gulp.task('watch', () => {
   gulp.watch('app/**/*.js', ['lint:app']);
-  gulp.watch(['models/**/*js', 'routers/**/*.js', 'index.js'] ['lint:server']);
+  gulp.watch(['models/**/*js', 'routers/**/*.js', 'index.js'], ['lint:server']);
   gulp.watch('styles/**/*.scss', ['style']);
 });
 

@@ -2,15 +2,16 @@
   "development": {
     "username": "riverleo",
     "password": "1",
-    "database": "template1",
+    "database": "unlabored",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "riverleo",
     "password": "1",
-    "database": "database_test",
+    "database": "unlabored_test",
     "host": "127.0.0.1",
+    "logging": false,
     "dialect": "postgres"
   },
   "production": {

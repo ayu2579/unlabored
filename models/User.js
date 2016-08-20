@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../models';
+import { sequelize } from '.';
 
 const User = sequelize.define('users', {
   id: {
@@ -7,19 +7,15 @@ const User = sequelize.define('users', {
     primaryKey: true,
     autoIncrement: true,
   },
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-  },
-  fbId: {
-    type: Sequelize.STRING,
-    unique: true,
-  },
+  email: Sequelize.STRING,
+  fbId: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
   fbAccessToken: Sequelize.STRING,
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
+}, {
+  paranoid: true,
 });
 
 export default User;

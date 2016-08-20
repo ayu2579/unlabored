@@ -14,12 +14,19 @@ module.exports = {
           type: Sequelize.STRING,
           unique: true,
         },
-        username: Sequelize.STRING,
+        username: {
+          type: Sequelize.STRING,
+          unique: true,
+        },
         password: Sequelize.STRING,
-        fbId: Sequelize.STRING,
+        fbId: {
+          type: Sequelize.STRING,
+          unique: true,
+        },
         fbAccessToken: Sequelize.STRING,
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE,
       }
     );
   },

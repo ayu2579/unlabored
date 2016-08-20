@@ -3,26 +3,34 @@ import path from 'path';
 import React from 'react';
 import express from 'express';
 import compression from 'compression';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import expressValidator from 'express-validator';
 import expressUserAgent from 'express-useragent';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
 import routes from './app/routes';
 import { mapRoutesToApp } from './routers';
-import { loginUser } from './middlewares';
+import { loginUser, defaultParams } from './middlewares';
 
 export const app = express();
 
-app.set('port', (process.env.PORT || 5000));
+const { NODE_ENV, PORT } = process.env;
+
+app.set('port', _.isEqual(NODE_ENV, 'test') ? 5001 : PORT || 5000);
+
+app.use(bodyParser.json({ type: '*/json' }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(expressValidator());
+app.use(expressUserAgent.express());
+app.use(loginUser());
+app.use(defaultParams());
+app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use(compression());
 
 mapRoutesToApp(app);
-
-app.use(compression());
-app.use(cookieParser());
-app.use(loginUser());
-app.use(expressUserAgent.express());
-app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // views is directory for all template files
 app.set('views', path.join(__dirname, '/views'));
