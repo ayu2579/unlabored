@@ -1,3 +1,5 @@
+/* global FormData */
+
 import _ from 'lodash';
 import axios from 'axios';
 import { contains } from 'underscore.string';
@@ -18,7 +20,7 @@ const api = store => next => action => {
   }
 
   const dist = _.get(action.payload, 'dist', 'data');
-  const data = _.get(action.payload, 'files');
+  const files = _.get(action.payload, 'files');
   const source = _.get(action.payload, 'source');
   const status = _.get(action.payload, 'status', 'status');
   const method = _.toLower(_.get(action.payload, 'method', 'get'));
@@ -39,13 +41,34 @@ const api = store => next => action => {
 
   next(actionWith({ [status]: 'request' }));
 
+  let data = params;
+  if (!_.isEmpty(files)) {
+    data = new FormData();
+
+    _.forEach(params, (value, key) => {
+      if (_.isUndefined(value) || _.isNull(value)) { return; }
+
+      data.append(key, value);
+    });
+
+    if (_.isPlainObject(files)) {
+      _.forEach(files, (file, key) => {
+        if (_.isUndefined(file) || _.isNull(file)) { return; }
+
+        data.append(key, file);
+      });
+    } else {
+      data.append('files', files);
+    }
+  }
+
   const req = axios(fullPath, {
     method, headers, params, data,
   });
 
   return req.then(response => {
     const payload = { [status]: 'success' };
-    const body = _.isEmpty(source) ? response.body : _.get(response.body, source);
+    const body = _.isEmpty(source) ? response.data : _.get(response.data, source);
 
     _.set(payload, dist, body);
 

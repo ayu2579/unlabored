@@ -1,5 +1,6 @@
 $font-size: 16px;
 $font-color: black;
+$border-color: #dfdfdf;
 
 html,
 body,
@@ -15,13 +16,17 @@ img {
   max-width: 100%;
 }
 
+input,
+textarea {
+  resize: none;
+}
+
 .container {
   padding: 0;
 }
 
 .react-container {
   overflow: auto;
-  padding-top: 54px;
 }
 
 .panel,
@@ -55,4 +60,14 @@ img {
 
 .navbar-nav li a {
   padding: 0;
+}
+
+.form-control {
+  border: 0;
+  border-radius: 0;
+
+  &, &:focus {
+    border-color: $border-color;
+    box-shadow: none;
+  }
 }

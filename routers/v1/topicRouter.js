@@ -9,7 +9,7 @@ const router = Router();
 /* eslint-enable new-cap */
 
 const defaultOptions = {
-  attributes: ['id', 'userId', 'title', 'type', 'createdAt'],
+  attributes: ['id', 'userId', 'title', 'text', 'type', 'createdAt'],
   include: [
     {
       model: User,
@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
         return;
       }
 
-      $topic.update(req.body, { fields: ['title', 'type'] })
+      $topic.update(req.body, { fields: ['title', 'text', 'type'] })
       .then(() => {
         Topic.findById(id, defaultOptions)
         .then($$topic => res.status(201).json($$topic));
@@ -82,7 +82,7 @@ router.post('/', (req, res) => {
 
   Topic.create(
     _.assign(req.body, { userId }),
-    { fields: ['title', 'type', 'userId'] }
+    { fields: ['title', 'text', 'type', 'userId'] }
   ).then($topic => {
     const $items = Item.findAll({ where: { id: { $in: itemIds.split(',') } } })
     .then($$items => $topic.addItem($$items));

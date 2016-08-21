@@ -10,6 +10,7 @@ const Topic = sequelize.define('topics', {
   userId: Sequelize.INTEGER,
   type: Sequelize.STRING,
   title: Sequelize.STRING,
+  text: Sequelize.STRING,
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 }, {

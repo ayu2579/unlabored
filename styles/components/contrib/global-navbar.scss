@@ -2,13 +2,18 @@
 
 #global-navbar {
   padding: 16px 20px;
+  font-family: 'HoonSaemaR';
+  border-bottom: 1px solid #ccc;
+  background-color: white;
 
   .navbar-nav {
     margin: 0;
+    width: 100%;
 
     li {
+      width: 33.3333%;
       display: inline-block;
-      margin-right: 10px;
+      text-align: center;
 
       strong {
         text-decoration: underline;
@@ -16,6 +21,11 @@
 
       &:last-child {
         margin-right: 0;
+      }
+
+      &.active a {
+        color: #e84c3d;
+        text-decoration: underline;
       }
     }
 
@@ -30,5 +40,5 @@
 }
 
 #app {
-  margin-top: 50px;
+  padding-top: 54px;
 }

@@ -2,10 +2,12 @@
 
 // Components
 @import './components/contrib/global-navbar.scss';
+@import './components/contrib/auto-resize-input.scss';
 
 // Containers
 @import './containers/app-container.scss';
-@import './containers/feed-container.scss';
-@import './containers/no-match-container.scss';
-@import './containers/rating-container.scss';
+@import './containers/create-container.scss';
+@import './containers/explore-container.scss';
+@import './containers/profile-container.scss';
 @import './containers/welcome-container.scss';
+@import './containers/no-match-container.scss';

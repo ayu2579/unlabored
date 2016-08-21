@@ -1,4 +1,11 @@
-export { default as feedAction } from './feedAction';
-export { default as evalAction } from './ratingAction';
-export { default as profileAction } from './profileAction';
-export { default as welcomeAction } from './welcomeAction';
+import * as create from './createAction';
+import * as profile from './profileAction';
+import * as welcome from './welcomeAction';
+
+/* ========================================================
+ * Container Actions
+ * ======================================================== */
+
+export const createAction = create;
+export const profileAction = profile;
+export const welcomeAction = welcome;

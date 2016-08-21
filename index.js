@@ -2,14 +2,16 @@ import _ from 'lodash';
 import path from 'path';
 import React from 'react';
 import express from 'express';
-import compression from 'compression';
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import expressValidator from 'express-validator';
 import expressUserAgent from 'express-useragent';
 import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
 
+import store from './app/store';
 import routes from './app/routes';
 import { mapRoutesToApp } from './routers';
 import { loginUser, defaultParams } from './middlewares';
@@ -44,7 +46,11 @@ app.get('/*', (req, res) => {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     }
 
-    const __html = renderToString(<RouterContext {...renderProps} />);
+    const __html = renderToString(
+      <Provider store={store}>
+        <RouterContext {...renderProps} />
+      </Provider>
+    );
     const browser = _.kebabCase(req.useragent.browser);
 
     res.status(200).render('pages/index', { __html, browser });

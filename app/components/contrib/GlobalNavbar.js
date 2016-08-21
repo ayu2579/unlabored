@@ -11,9 +11,7 @@ const GlobalNavbar = () => (
       <LinkContainer to="/@riverleo">
         <NavItem>내꺼보든나</NavItem>
       </LinkContainer>
-    </Nav>
-    <Nav pullRight>
-      <LinkContainer to="/new">
+      <LinkContainer to="/create">
         <NavItem>새로올리든가</NavItem>
       </LinkContainer>
     </Nav>

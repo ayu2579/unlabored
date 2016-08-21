@@ -13,6 +13,7 @@ module.exports = {
         userId: Sequelize.INTEGER,
         type: Sequelize.STRING,
         title: Sequelize.STRING,
+        text: Sequelize.STRING(1000),
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
         deletedAt: Sequelize.DATE,
