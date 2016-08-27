@@ -2,8 +2,7 @@
 
 #global-navbar {
   padding: 16px 20px;
-  font-family: 'HoonSaemaR';
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   background-color: white;
 
   .navbar-nav {
@@ -11,7 +10,7 @@
     width: 100%;
 
     li {
-      width: 33.3333%;
+      width: 20%;
       display: inline-block;
       text-align: center;
 
@@ -40,5 +39,5 @@
 }
 
 #app {
-  padding-top: 54px;
+  padding-bottom: 54px;
 }

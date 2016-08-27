@@ -1,0 +1,29 @@
+#navigation-bar {
+  padding: 14px 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 1032;
+
+  .navbar-header {
+    float: initial;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    top: 17px;
+    position: absolute;
+  }
+
+  .navbar-left {
+    left: 10px;
+  }
+
+  .navbar-right {
+    right: 10px;
+  }
+}
+
+.react-container {
+  padding-top: 54px;
+}

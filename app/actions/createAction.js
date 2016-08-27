@@ -2,8 +2,10 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import { createAction } from 'redux-actions';
 
-export const SAVE_ITEM = '[API] NEW_SAVE_ITEM';
-export const SAVE_TOPIC = '[API] NEW_SAVE_TOPIC';
+export const SHOW = 'CREATE_SHOW';
+export const HIDE = 'CREATE_HIDE';
+export const SAVE_ITEM = '[API] SHOW_SAVE_ITEM';
+export const SAVE_TOPIC = '[API] SHOW_SAVE_TOPIC';
 
 /* =========================================================
  * Internal Actions
@@ -15,6 +17,9 @@ const __saveTopic__ = createAction(SAVE_TOPIC);
 /* =========================================================
  * Actions
  * ========================================================= */
+
+export const show = createAction(SHOW, () => ({ show: true }));
+export const hide = createAction(HIDE, () => ({ show: false }));
 
 export const saveItem = (direction = 'left', { image, title, text }) => (dispatch, getState) => {
   const { id } = getState().create.items[direction] || {};

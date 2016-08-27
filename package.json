@@ -45,12 +45,13 @@
     "express-validator": "^2.20.8",
     "humps": "^1.1.0",
     "jquery": "^3.1.0",
+    "js-cookie": "^2.1.2",
     "jsonwebtoken": "^7.1.7",
     "lodash": "^4.14.1",
     "moment": "^2.14.1",
     "multer": "^1.2.0",
     "nodemon": "^1.10.0",
-    "pg": "^6.0.3",
+    "pg": "^6.1.0",
     "pg-hstore": "^2.3.2",
     "react": "^15.3.0",
     "react-bootstrap": "^0.30.2",
@@ -64,6 +65,7 @@
     "redux-actions": "^0.10.1",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.23.6",
+    "sqlite3": "^3.1.4",
     "underscore.string": "^3.3.4"
   },
   "devDependencies": {

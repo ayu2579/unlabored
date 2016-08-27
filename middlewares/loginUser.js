@@ -14,7 +14,10 @@ export default () => (req, res, next) => {
   jwt.verify(token, cert.secret, (err, decoded) => {
     if (err) { return next(); }
 
-    User.findOne({ where: { id: decoded.id } })
+    User.findOne({
+      where: { id: decoded.id },
+      attributes: ['id', 'nickname', 'username', 'email', 'fbId', 'createdAt', 'updatedAt'],
+    })
     .then(user => {
       req.user = user;
       next();

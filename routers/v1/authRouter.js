@@ -11,6 +11,13 @@ import { appId, secret, scope } from '../../config/facebook.json';
 const router = Router();
 /* eslint-enable new-cap */
 
+router.get('/logout', (req, res) => {
+  const { redirect } = req.query || {};
+
+  res.clearCookie('jwt');
+  res.redirect(redirect || '/');
+});
+
 router.get('/facebook', (req, res) => {
   const { protocol, hostname, app } = req;
   const { port } = app.settings;
@@ -64,7 +71,7 @@ router.get('/facebook/callback', (req, res) => {
           /* eslint-enable camelcase */
 
           if (_.isEmpty(user.username)) {
-            user.username = name;
+            user.nickname = name;
           }
 
           if (_.isEmpty(user.email) && !emailAlreadyTaken) {
@@ -78,10 +85,13 @@ router.get('/facebook/callback', (req, res) => {
             cert.secret,
             { algorithm: 'HS256' },
             (err, token) => {
+              const { redirect } = req.cookies;
+              res.clearCookie('redirect');
+
               res.cookie('jwt', token, {
                 httpOnly: true,
                 expires: moment().add(2, 'year').toDate(),
-              }).redirect('/explore');
+              }).redirect(redirect || '/explore');
             }
           );
         });

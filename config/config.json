@@ -1,18 +1,13 @@
 {
   "development": {
-    "username": "riverleo",
-    "password": "1",
-    "database": "unlabored",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "sqlite",
+    "logging": false,
+    "storage": "development.sqlite3"
   },
   "test": {
-    "username": "riverleo",
-    "password": "1",
-    "database": "unlabored_test",
-    "host": "127.0.0.1",
+    "dialect": "sqlite",
     "logging": false,
-    "dialect": "postgres"
+    "storage": "test.sqlite3"
   },
   "production": {
     "username": "fjzvnpacrsepfb",

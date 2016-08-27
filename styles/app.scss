@@ -2,10 +2,13 @@
 
 // Components
 @import './components/contrib/global-navbar.scss';
+@import './components/contrib/navigation-bar.scss';
 @import './components/contrib/auto-resize-input.scss';
 
 // Containers
 @import './containers/app-container.scss';
+@import './containers/login-container.scss';
+@import './containers/topic-container.scss';
 @import './containers/create-container.scss';
 @import './containers/explore-container.scss';
 @import './containers/profile-container.scss';
