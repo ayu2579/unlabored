@@ -1,6 +1,6 @@
 @import './reset.scss';
 
-// Components
+// Contrib Components
 @import './components/contrib/global-navbar.scss';
 @import './components/contrib/navigation-bar.scss';
 @import './components/contrib/auto-resize-input.scss';
@@ -14,3 +14,6 @@
 @import './containers/profile-container.scss';
 @import './containers/welcome-container.scss';
 @import './containers/no-match-container.scss';
+
+// Custom Components
+@import './components/profile/field.scss';

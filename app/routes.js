@@ -4,10 +4,16 @@ import {
   AppContainer, LoginContainer, TopicContainer, ExploreContainer,
   ProfileContainer, SearchContainer, NotificationContainer, NoMatchContainer,
 } from './containers';
+import * as explore from './containers/explore';
 
 const routes = (
   <Route path="/" component={AppContainer}>
-    <IndexRedirect to="explore" />
+    <Route path="explore" component={ExploreContainer}>
+      <Route path="me" component={explore.MeContainer} />
+      <Route path="latest" component={explore.LatestContainer} />
+      <Route path="feature" component={explore.FeatureContainer} />
+      <IndexRedirect to="latest" />
+    </Route>
     <Route path="login" component={LoginContainer} />
     <Route path="search" component={SearchContainer} />
     <Route path="topics/:id" component={TopicContainer} />
@@ -15,6 +21,7 @@ const routes = (
     <Route path="profile" component={ProfileContainer} />
     <Route path="notifications" component={NotificationContainer} />
     <Route path="*" component={NoMatchContainer} />
+    <IndexRedirect to="explore" />
   </Route>
 );
 

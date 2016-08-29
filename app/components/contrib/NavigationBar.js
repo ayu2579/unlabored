@@ -2,6 +2,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -19,6 +20,34 @@ class NavigationBar extends Component {
     this.props.onExit();
   }
 
+  mapItemToNavItem(items) {
+    if (_.isEmpty(items)) { return; }
+
+    /* eslint-disable consistent-return */
+    return _.map(items, (item, key) => {
+    /* eslint-enable consistent-return */
+      const navItem = (
+        <NavItem
+          key={key}
+          href={item.href}
+          onClick={item.onClick}
+        >
+          {item.title}
+        </NavItem>
+      );
+
+      if (_.has(item, 'to')) {
+        return (
+          <LinkContainer key={key} to={item.to}>
+            {navItem}
+          </LinkContainer>
+        );
+      }
+
+      return navItem;
+    });
+  }
+
   render() {
     const { title, style, leftItems, rightItems, onPrev, onExit } = this.props;
 
@@ -33,18 +62,7 @@ class NavigationBar extends Component {
         fixedTop
       >
         <Nav pullLeft>
-          {
-            !_.isEmpty(leftItems) &&
-              _.map(leftItems, (item, key) =>
-                <NavItem
-                  key={key}
-                  href={item.href}
-                  onClick={item.onClick}
-                >
-                  {item.title}
-                </NavItem>
-              )
-          }
+          {this.mapItemToNavItem(leftItems)}
           {
             onPrev &&
               <NavItem onClick={this.handlePrev}>
@@ -56,18 +74,7 @@ class NavigationBar extends Component {
           {title}
         </Navbar.Header>
         <Nav pullRight>
-          {
-            !_.isEmpty(rightItems) &&
-              _.map(rightItems, (item, key) =>
-                <NavItem
-                  key={key}
-                  href={item.href}
-                  onClick={item.onClick}
-                >
-                  {item.title}
-                </NavItem>
-              )
-          }
+          {this.mapItemToNavItem(rightItems)}
           {
             onExit &&
               <NavItem onClick={this.handleExit}>

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import React, { Component, PropTypes } from 'react';
+import { Grid } from 'react-bootstrap';
 import { GlobalNavbar, NavigationBar } from '../components/contrib';
 import { loginAction } from '../actions';
 import { Field } from '../components/profile';
@@ -40,33 +41,32 @@ class ProfileContainer extends Component {
           rightItems={rightItems}
         />
 
-        {
-          (() => {
-            if (_.isEqual(me.status, 'failure')) {
-              return '로그인 해야 할껄?';
-            }
+        <Grid>
+          {
+            (() => {
+              if (_.isEqual(me.status, 'failure')) {
+                return '로그인 해야 할껄?';
+              }
 
-            return (
-              <div className="form">
-                <Field
-                  label="닉네임"
-                  name="nickname"
-                />
-                <Field
-                  label="이메일"
-                  name="email"
-                />
-                <Field
-                  label="내주소"
-                  name="username"
-                />
-              </div>
-            );
-          })()
-        }
-        {
-          _.isEqual(me.status, 'success')
-        }
+              return (
+                <div className="form">
+                  <Field
+                    label="닉네임"
+                    name="nickname"
+                  />
+                  <Field
+                    label="이메일"
+                    name="email"
+                  />
+                  <Field
+                    label="내주소"
+                    name="username"
+                  />
+                </div>
+              );
+            })()
+          }
+        </Grid>
 
         <GlobalNavbar />
       </div>

@@ -1,4 +1,7 @@
+@import '../../responsive';
+
 #navigation-bar {
+  min-height: 54px;
   padding: 14px 0;
   border-bottom: 1px solid #ccc;
   z-index: 1032;
@@ -21,6 +24,15 @@
 
   .navbar-right {
     right: 10px;
+  }
+
+	li {
+		float: left;
+
+    &.active a {
+      color: #e84c3d;
+      text-decoration: underline;
+    }
   }
 }
 

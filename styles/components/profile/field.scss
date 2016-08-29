@@ -1,0 +1,27 @@
+#profile.react-container .field {
+  width: 100%;
+  display: table;
+  color: black;
+  border-bottom: 1px solid rgba(47, 49, 71, 0.1);
+
+  &.has-success {
+    color: black;
+
+    .control-label {
+      color: black;
+    }
+  }
+
+  .control-label,
+  .form-control {
+    height: auto;
+    display: table-cell;
+    padding: 20px 0;
+  }
+
+  .control-label {
+    width: 1%;
+    padding-right: 20px;
+    white-space: nowrap;
+  }
+}

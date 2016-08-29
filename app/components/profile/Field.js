@@ -37,17 +37,17 @@ class Field extends Component {
     const { value, help, validationState } = this.state || {};
 
     return (
-      <FormGroup validationState={validationState}>
+      <FormGroup className="field" validationState={validationState}>
         {!_.isEmpty(label) && <ControlLabel>{label}</ControlLabel>}
 
         <FormControl
           type={type}
-          value={parser.down(value)}
+          value={parser.down(value) || ''}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
         />
 
-        <HelpBlock>{help}</HelpBlock>
+        {!_.isEmpty(help) && <HelpBlock>{help}</HelpBlock>}
       </FormGroup>
     );
   }
