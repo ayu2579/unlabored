@@ -11,5 +11,5 @@ npm-debug.log
 Dockerfile
 docker-compose.yml
 
-# SQLite3
+# SQLite
 *.sqlite3
