@@ -14,7 +14,7 @@ const router = Router();
 router.get('/logout', (req, res) => {
   const { redirect } = req.query || {};
 
-  res.clearCookie('jwt');
+  res.clearCookie('jwt', { domain: '.goongmool.com' });
   res.redirect(redirect || '/');
 });
 
@@ -90,6 +90,7 @@ router.get('/facebook/callback', (req, res) => {
 
               res.cookie('jwt', token, {
                 httpOnly: true,
+                domain: '.goongmool.com',
                 expires: moment().add(2, 'year').toDate(),
               }).redirect(redirect || '/explore');
             }
