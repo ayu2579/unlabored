@@ -66,7 +66,7 @@ class NavigationBar extends Component {
           {
             onPrev &&
               <NavItem onClick={this.handlePrev}>
-                뒤로
+                <i className="icon-previous" />
               </NavItem>
           }
         </Nav>

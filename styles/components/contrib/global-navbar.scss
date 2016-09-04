@@ -1,7 +1,7 @@
 @import 'bourbon';
 
 #global-navbar {
-  padding: 16px 20px;
+  padding: 8px 20px;
   border-top: 1px solid #ccc;
   background-color: white;
 
@@ -9,13 +9,48 @@
     margin: 0;
     width: 100%;
 
+    .create {
+      a {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        position: relative;
+        color: white;
+        font-size: 18px;
+        border-radius: 50%;
+
+        &, &:hover {
+          background-color: #ff4800;
+        }
+
+        span {
+          top: 50%;
+          left: 50%;
+          margin-top: 1px;
+          position: absolute;
+          @include transform(translate(-50%, -50%));
+        }
+      }
+    }
+
     li {
       width: 20%;
-      display: inline-block;
+      height: 40px;
+      float: left;
       text-align: center;
 
-      strong {
-        text-decoration: underline;
+      a {
+        height: 40px;
+        font-size: 22px;
+
+        i {
+          top: 9px;
+          position: relative;
+        }
+
+        &:focus, &:hover {
+          background-color: transparent;
+        }
       }
 
       &:last-child {
@@ -24,16 +59,7 @@
 
       &.active a {
         color: #e84c3d;
-        text-decoration: underline;
       }
-    }
-
-    &.navbar-left {
-      float: left;
-    }
-
-    &.navbar-right {
-      float: right;
     }
   }
 }

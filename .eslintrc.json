@@ -3,6 +3,9 @@
   "plugins": [
       "react"
   ],
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "rules": {
     "no-global-assign": 0,
     "no-unsafe-negation": 0,

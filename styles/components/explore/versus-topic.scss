@@ -1,0 +1,54 @@
+@import 'bourbon';
+
+.versus-topic {
+  position: relative;
+  color: white;
+  text-align: center;
+  @include clearfix;
+
+  &:before {
+    content: 'VS';
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    font-size: 18px;
+    line-height: 12px;
+    @include transform(translate(-50%, -50%));
+  }
+
+  &.image:before {
+    padding: 15px 12px 13px 12px;
+    color: #e84c3d;
+    background-color: white;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .item {
+    width: 100%;
+    height: 100%;
+    padding-top: 80%;
+    display: block;
+    position: relative;
+    font-size: 20px;
+
+    .text {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      color: white;
+      position: absolute;
+      @include transform(translateY(-50%));
+    }
+
+    .image {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}

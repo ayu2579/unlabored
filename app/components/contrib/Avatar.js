@@ -1,22 +1,27 @@
 import React, { PropTypes } from 'react';
-import { Image } from 'react-bootstrap';
 
-const Avatar = ({ user }) => {
-  const { username, image } = user;
+const Avatar = ({ user, imageOnly }) => {
+  const { picture, nickname } = user || {};
 
   return (
     <div className="avatar">
-      <Image src={image} />
-      {username}
+      <div
+        className="picture"
+        style={{
+          backgroundImage: `url('${picture}')`,
+        }}
+      />
+      {!imageOnly && nickname}
     </div>
   );
 };
 
 Avatar.propTypes = {
   user: PropTypes.shape({
-    username: PropTypes.string,
-    image: PropTypes.string,
-  }).isRequired,
+    picture: PropTypes.string,
+    nickname: PropTypes.string,
+  }),
+  imageOnly: PropTypes.bool,
 };
 
 export default Avatar;

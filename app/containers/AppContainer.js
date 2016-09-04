@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import React, { Component, PropTypes } from 'react';
 import { meAction } from '../actions';
-import { LoginContainer, CreateContainer } from '.';
+import { LoginContainer, TopicContainer, CreateContainer } from '.';
 
 class AppContainer extends Component {
   componentDidMount() {
@@ -13,7 +13,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { children, me, login, create } = this.props;
+    const { children, me, login, topic, create } = this.props;
 
     if (_.includes(['waiting', 'request'], me.status)) {
       return <div />;
@@ -27,6 +27,7 @@ class AppContainer extends Component {
         {children}
 
         {login.show && <LoginContainer />}
+        {topic.show && <TopicContainer />}
         {create.show && <CreateContainer />}
       </div>
     );
@@ -38,6 +39,9 @@ AppContainer.propTypes = {
     data: PropTypes.object.isRequired,
     status: PropTypes.string.isRequired,
   }).isRequired,
+  topic: PropTypes.shape({
+    show: PropTypes.bool.isRequired,
+  }).isRequired,
   login: PropTypes.shape({
     show: PropTypes.bool.isRequired,
   }).isRequired,
@@ -48,4 +52,4 @@ AppContainer.propTypes = {
   children: PropTypes.node,
 };
 
-export default connect(state => _.pick(state, ['me', 'login', 'create']))(AppContainer);
+export default connect(state => _.pick(state, ['me', 'login', 'topic', 'create']))(AppContainer);

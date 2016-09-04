@@ -14,6 +14,8 @@ module.exports = {
         type: Sequelize.STRING,
         title: Sequelize.STRING,
         text: Sequelize.STRING(1000),
+        color: Sequelize.STRING(7),
+        kind: Sequelize.STRING(10),
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
         deletedAt: Sequelize.DATE,

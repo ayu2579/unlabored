@@ -9,10 +9,14 @@ const Item = sequelize.define('items', {
   },
   userId: Sequelize.INTEGER,
   text: Sequelize.STRING,
+  kind: Sequelize.STRING,
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 }, {
   paranoid: true,
+  getterMethods: {
+    type() { return 'item'; },
+  },
 });
 
 Item.belongsTo(User);

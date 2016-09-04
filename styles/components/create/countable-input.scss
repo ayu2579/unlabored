@@ -1,0 +1,17 @@
+#create .countable-input {
+  border-top: 1px solid rgba(156, 157, 157, 0.5);
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  padding: 14px 20px;
+  position: relative;
+
+  .help-block {
+    top: 8px;
+    right: 10px;
+    position: absolute;
+    text-align: right;
+  }
+}

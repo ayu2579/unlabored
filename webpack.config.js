@@ -18,7 +18,7 @@ console.log(colors[_.isEqual(env, 'production') ? 'cyan' : 'yellow'].bold(startM
 // Config
 
 module.exports = {
-  devtool: _.isEqual(env, 'production') ? 'source-map' : '#cheap-module-eval-source-map',
+  devtool: _.isEqual(env, 'production') ? 'source-map' : '#module-eval-source-map',
   entry: './app/index.js',
 	output: {
     path: path.join(__dirname, 'public/dist'),

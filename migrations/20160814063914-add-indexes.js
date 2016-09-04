@@ -13,9 +13,9 @@ module.exports = {
 
     queryInterface.addIndex(
       'selections',
-      ['userId', 'itemMapId'],
+      ['userId', 'topicId'],
       {
-        indexName: 'selections_user_item_map',
+        indexName: 'selections_user_topic',
         indicesType: 'UNIQUE',
       }
     );
@@ -23,6 +23,6 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     queryInterface.removeIndex('itemMaps', 'item_maps_item_itemable');
-    queryInterface.removeIndex('selections', 'selections_user_item_map');
+    queryInterface.removeIndex('selections', 'selections_user_topic');
   }
 };

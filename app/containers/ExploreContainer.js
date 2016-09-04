@@ -6,7 +6,7 @@ const ExploreContainer = ({ children }) => (
     <NavigationBar
       leftItems={[
         {
-          title: '누가월올렸나봐',
+          title: '누가뭘올렸나봐',
           to: '/explore/latest',
         },
         {

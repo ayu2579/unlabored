@@ -13,7 +13,7 @@ module.exports = {
         itemId: Sequelize.INTEGER,
         itemable: Sequelize.STRING,
         itemableId: Sequelize.INTEGER,
-        selectCount: {
+        count: {
           type: Sequelize.INTEGER,
           defaultValue: 0,
         },

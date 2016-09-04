@@ -11,9 +11,12 @@ module.exports = {
           autoIncrement: true,
         },
         userId: Sequelize.INTEGER,
+        commentable: Sequelize.STRING,
+        commentableId: Sequelize.INTEGER,
         text: Sequelize.STRING(1000),
-        createAt: Sequelize.DATE,
-        udatedAt: Sequelize.DATE,
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE,
+        deletedAt: Sequelize.DATE,
       }
     );
   },

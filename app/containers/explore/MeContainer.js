@@ -1,19 +1,41 @@
 import _ from 'lodash';
+import { connect } from 'react-redux';
 
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Grid } from 'react-bootstrap';
-import { AggregationItem } from '../../components/explore';
+import { exploreAction } from '../../actions';
+import { AggregationTopic } from '../../components/explore';
 
-const MeContainer = () => (
-  <div id="me" className="react-sub-container">
-    <Grid>
-      {
-        _.map(_.range(5), key =>
-          <AggregationItem key={key} />
-        )
-      }
-    </Grid>
-  </div>
-);
+class MeContainer extends Component {
+  componentDidMount() {
+    this.props.dispatch(exploreAction.fetch());
+  }
 
-export default MeContainer;
+  render() {
+    const { fetch } = this.props.explore;
+
+    return (
+      <div id="latest" className="react-sub-container">
+        <Grid>
+          {
+            _.map(fetch.data, (topic, key) =>
+              <AggregationTopic key={key} topic={topic} />
+            )
+          }
+        </Grid>
+      </div>
+    );
+  }
+}
+
+MeContainer.propTypes = {
+  explore: PropTypes.shape({
+    fetch: PropTypes.shape({
+      count: PropTypes.number,
+      data: PropTypes.array,
+    }),
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect(state => _.pick(state, ['explore']))(MeContainer);

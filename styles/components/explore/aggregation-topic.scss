@@ -1,0 +1,127 @@
+@import 'bourbon';
+
+.aggregation-topic {
+  margin-bottom: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
+
+  .panel-title,
+  .panel-body,
+  .toolbar {
+    margin: 0 10px;
+  }
+
+  .panel-heading {
+    margin-top: 15px;
+    padding-left: 50px;
+    position: relative;
+
+    .panel-title {
+      padding-top: 4px;
+    }
+
+    h1, .tags {
+      font-family: sans-serif;
+    }
+
+    h1 {
+      top: 2px;
+      position: relative;
+      color: #263147;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .tags {
+      color: #999;
+      font-size: 11px;
+
+      li {
+        display: inline;
+        margin-right: 5px;
+
+        &:before {
+          content: '#';
+        }
+      }
+    }
+
+    .avatar {
+      top: 0;
+      left: 10px;
+      position: absolute;
+    }
+  }
+
+  .panel-body {
+    margin-top: 11px;
+  }
+
+  .panel-footer {
+    .toolbar {
+      padding: 10px 0;
+      @include clearfix;
+    }
+
+    .btn-group {
+      float: left;
+
+      .btn {
+        margin-right: 10px;
+        font-size: 22px;
+        line-height: 0;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .btn-share.active {
+        color: #ff4800;
+      }
+    }
+
+    ul {
+      float: right;
+      margin-top: 1px;
+
+      li {
+        display: inline;
+        font-size: 14px;
+
+        &:after {
+          content: '･';
+          margin: 0 5px;
+        }
+
+        &:last-child:after {
+          content: '';
+          margin: 0;
+        }
+      }
+    }
+
+    .share {
+      margin-top: 10px;
+      padding: 15px 0 15px;
+      border-top: 1px solid #d5d6db;
+      @include clearfix;
+
+      .btn {
+        float: left;
+        width: 33.3333%;
+        text-align: center;
+
+        img {
+          width: 50px;
+        }
+
+        p {
+          margin: 5px 0 0;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}

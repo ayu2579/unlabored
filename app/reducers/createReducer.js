@@ -11,4 +11,5 @@ export default handleActions({
   [actions.SHOW]: (state, action) => _.assign({}, state, action.payload),
   [actions.HIDE]: (state, action) => _.assign({}, state, action.payload),
   [actions.SAVE_ITEM]: (state, action) => _.assign({}, state, action.payload),
+  [actions.SET_COLOR]: (state, action) => _.assign({}, state, action.payload),
 }, initialState);

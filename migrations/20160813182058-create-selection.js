@@ -12,11 +12,11 @@ module.exports = {
         },
         userId: Sequelize.INTEGER,
         itemId: Sequelize.INTEGER,
-        itemMapId: Sequelize.INTEGER,
+        topicId: Sequelize.INTEGER,
         createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE,
       }
     );
-
   },
 
   down: function (queryInterface, Sequelize) {

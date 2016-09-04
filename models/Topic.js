@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelize, User, Item, ItemMap } from '.';
+import { sequelize, User, Tag, TagMap, Item, ItemMap } from '.';
 
 const Topic = sequelize.define('topics', {
   id: {
@@ -11,13 +11,31 @@ const Topic = sequelize.define('topics', {
   type: Sequelize.STRING,
   title: Sequelize.STRING,
   text: Sequelize.STRING,
+  color: Sequelize.STRING,
+  kind: Sequelize.STRING,
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 }, {
   paranoid: true,
+  getterMethods: {
+    type() { return 'topic'; },
+  },
 });
 
 Topic.belongsTo(User);
+
+Topic.belongsToMany(Tag, {
+  through: {
+    model: TagMap,
+    unique: false,
+    scope: {
+      taggable: 'topic',
+    },
+  },
+  foreignKey: 'taggableId',
+  constraints: false,
+});
+
 Topic.belongsToMany(Item, {
   through: {
     model: ItemMap,

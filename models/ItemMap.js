@@ -10,7 +10,7 @@ const ItemMap = sequelize.define('itemMaps', {
   itemId: Sequelize.INTEGER,
   itemable: Sequelize.STRING,
   itemableId: Sequelize.INTEGER,
-  selectCount: Sequelize.INTEGER,
+  count: Sequelize.INTEGER,
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 });

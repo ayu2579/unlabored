@@ -20,19 +20,30 @@ class GlobalNavbar extends Component {
       <Navbar id="global-navbar" fixedBottom>
         <Nav pullLeft>
           <LinkContainer to="/explore">
-            <NavItem>피드</NavItem>
+            <NavItem>
+              <i className="icon-hand" />
+            </NavItem>
           </LinkContainer>
           <LinkContainer to="/search">
-            <NavItem>검색</NavItem>
+            <NavItem>
+              <i className="icon-search" />
+            </NavItem>
           </LinkContainer>
-          <NavItem onClick={this.handleShowsCreateContainer}>
-            신규
+          <NavItem
+            className="create"
+            onClick={this.handleShowsCreateContainer}
+          >
+            <span>VS</span>
           </NavItem>
           <LinkContainer to="/notifications">
-            <NavItem>알림</NavItem>
+            <NavItem>
+              <i className="icon-notification" />
+            </NavItem>
           </LinkContainer>
           <LinkContainer to="/profile">
-            <NavItem>플필</NavItem>
+            <NavItem>
+              <i className="icon-profile" />
+            </NavItem>
           </LinkContainer>
         </Nav>
       </Navbar>

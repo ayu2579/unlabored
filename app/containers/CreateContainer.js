@@ -2,51 +2,148 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+import { Grid, Tabs, Tab, Button } from 'react-bootstrap';
 import store from '../store';
-import { createAction } from '../actions';
-import { AutoResizeInput, NavigationBar } from '../components/contrib';
-import { ItemCreator } from '../components/create';
+import { history } from '../contrib';
+import { createAction, exploreAction } from '../actions';
+import { NavigationBar } from '../components/contrib';
+import { CountableInput, TextForm, ImageForm } from '../components/create';
 
 class CreateContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      kind: 'text',
+      title: '',
+      tags: '',
+    };
+
+    this.valid = this.valid.bind(this);
     this.handleExit = this.handleExit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleChangeTags = this.handleChangeTags.bind(this);
+    this.handleChangeTitle = this.handleChangeTitle.bind(this);
+  }
+
+  valid() {
+    const { selectedColor, leftItem, rightItem } = this.props.create;
+    const { kind, title, tags } = this.state || {};
+
+    if (_.isEqual(kind, 'text') && _.isEmpty(selectedColor)) {
+      return '색상을 선택해 주세요';
+    }
+
+    if (_.isEmpty(title)) {
+      return '제목을 입력해 주세요.';
+    }
+
+    if (_.isEmpty(tags)) {
+      return '태그를 입력해 주세요.';
+    }
+
+    if (_.isEmpty(leftItem) || _.isEmpty(rightItem)) {
+      return '아이탬을 입력해 주세요.';
+    }
+
+    // eslint-disable-next-line consistent-return
+    return;
   }
 
   handleExit() {
     store.dispatch(createAction.hide());
+    store.dispatch(exploreAction.fetch());
   }
 
   handleSubmit() {
-    const text = this.text.getValue();
-    store.dispatch(createAction.saveTopic({ text }));
+    const { create } = this.props;
+    const { selectedColor } = create;
+    const { kind, tags } = this.state || {};
+    const title = this.title.getValue();
+
+    store.dispatch(createAction.saveTopic({
+      kind, title, tags, color: selectedColor,
+    })).then(() => {
+      this.handleExit();
+      history.push({ pathname: '/explore/latest' });
+    });
+  }
+
+  handleChangeTags(e) {
+    let tags = e.target.value;
+
+    if (/\s(?!#)/g.test(e.target.value)) {
+      tags = tags.replace(/\s(?!#)/g, ' #');
+    } else if (/#$/.test(tags)) {
+      tags = _.trimEnd(tags, ' #');
+    }
+
+    if (!/^#/.test(tags)) {
+      tags = `#${tags}`;
+    }
+
+    this.setState({ tags });
+  }
+
+  handleChangeTitle(e) {
+    this.setState({ title: e.target.value });
+  }
+
+  handleSelect(kind) {
+    this.setState({ kind });
   }
 
   render() {
+    const { kind, title, tags } = this.state || {};
+    const disabled = !_.isEmpty(this.valid());
+
     return (
       <div id="create" className="react-container">
         <NavigationBar
           title="사진 두장만 골라봐"
           onExit={this.handleExit}
         />
-        <div className="items">
-          <ItemCreator direction="left" />
-          <ItemCreator direction="right" />
-        </div>
-        <AutoResizeInput
-          ref={c => (this.text = c)}
-          type="textarea"
-          placeholder="내용적어"
-        />
+
+        <Grid>
+          <CountableInput
+            ref={c => (this.title = c)}
+            type="text"
+            value={title}
+            onChange={this.handleChangeTitle}
+            placeholder="제목적어"
+          />
+
+          <CountableInput
+            ref={c => (this.tags = c)}
+            type="text"
+            max={40}
+            value={tags}
+            onChange={this.handleChangeTags}
+            placeholder="#태그적어"
+          />
+
+          <Tabs
+            id="create-tabs"
+            animation={false}
+            activeKey={kind}
+            onSelect={this.handleSelect}
+          >
+            <Tab eventKey="text" title="텍스트">
+              <TextForm />
+            </Tab>
+            <Tab eventKey="image" title="이미지">
+              <ImageForm />
+            </Tab>
+          </Tabs>
+        </Grid>
 
         <Button
+          disabled={disabled}
           className="btn-submit"
           onClick={this.handleSubmit}
         >
-          뭐가 좋은지 물어봐
+          {disabled ? '다 써야 올라갈껄?' : '뭐가 좋은지 물어봐'}
         </Button>
       </div>
     );

@@ -2,18 +2,29 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import { Router } from 'express';
 import { abort } from '../../contrib';
-import { Topic, Item, User, Image } from '../../models';
+import {
+  sequelize, Topic, Comment, Tag, Item, ItemMap,
+  User, Image, Selection,
+} from '../../models';
 
 /* eslint-disable new-cap */
 const router = Router();
+const selectionRouter = Router({ mergeParams: true });
 /* eslint-enable new-cap */
 
+router.use('/:topicId/selections', selectionRouter);
+
 const defaultOptions = {
-  attributes: ['id', 'userId', 'title', 'text', 'type', 'createdAt'],
+  attributes: ['id', 'userId', 'title', 'text', 'color', 'kind', 'createdAt'],
+  order: [[sequelize.col('topics.createdAt'), 'DESC']],
   include: [
     {
       model: User,
-      attributes: ['id', 'username', 'fbId'],
+      attributes: ['id', 'nickname', 'fbId'],
+    },
+    {
+      model: Tag,
+      attributes: ['id', 'title'],
     },
     {
       model: Item,
@@ -30,9 +41,30 @@ const defaultOptions = {
 
 router.get('/', (req, res) => {
   const { limit, offset } = req.query;
-  Topic.findAndCountAll(_.assign({ limit, offset }, defaultOptions))
-  .then(result => res.status(200).send(result))
-  .catch(error => res.status(500).send(error));
+  const userId = !_.isEmpty(req.user) && req.user.get('id');
+
+  Promise.all([
+    Topic.count(),
+    Topic.findAll(_.assign({ limit, offset }, defaultOptions)),
+  ]).spread((count, data) => {
+    Promise.mapSeries(data, topic => (
+      Selection.findOne({
+        where: { userId, topicId: topic.id },
+      }).then(selection => (topic.dataValues.selection = selection)),
+      Comment.findAll({
+        limit: 3,
+        order: [[sequelize.col('comments.createdAt'), 'DESC']],
+        where: { commentableId: topic.id, commentable: 'topic' },
+        attributes: ['id', 'text', 'createdAt'],
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'nickname', 'fbId'],
+          },
+        ],
+      }).then(comments => (topic.dataValues.comments = comments))
+    )).then(() => res.status(200).json({ count, data }));
+  });
 });
 
 router.get('/:id', (req, res) => {
@@ -49,7 +81,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { id, itemIds } = req.body || {};
+  const { id, itemIds, tags } = req.body || {};
 
   if (_.isEmpty(req.user)) {
     abort(res, 401);
@@ -58,39 +90,49 @@ router.post('/', (req, res) => {
 
   const userId = req.user.get('id');
 
-  if (!_.isEmpty(id)) {
-    Topic.findById(id, defaultOptions).then($topic => {
-      if (_.isEmpty($topic)) {
-        abort(res, 404);
-        return;
-      }
+  const titles = tags.replace(/#/g, '').replace(/\s{2}/g, ' ');
+  Promise.all([
+    Item.findAll({ where: { id: { $in: itemIds.split(',') } } }),
+    Promise.mapSeries(titles.split(' '), title =>
+      Tag.findOrCreate({ where: { title }, defaults: { userId } }).spread(tag => tag)
+    ),
+  ]).spread(($items, $tags) => {
+    if (!_.isEmpty(id)) {
+      Topic.findById(id, defaultOptions).then($topic => {
+        if (_.isEmpty($topic)) {
+          abort(res, 404);
+          return;
+        }
 
-      if (!_.isEqual($topic.userId, userId)) {
-        abort(res, 401);
-        return;
-      }
+        if (!_.isEqual($topic.userId, userId)) {
+          abort(res, 401);
+          return;
+        }
 
-      $topic.update(req.body, { fields: ['title', 'text', 'type'] })
-      .then(() => {
-        Topic.findById(id, defaultOptions)
-        .then($$topic => res.status(201).json($$topic));
+        Promise.all([
+          $topic.update(req.body, { fields: ['title', 'text', 'color', 'kind'] }),
+          $topic.setTags($tags),
+          $topic.setItems($items),
+        ]).spread(() => {
+          Topic.findById(id, defaultOptions)
+          .then($$topic => res.status(201).json($$topic));
+        });
       });
+
+      return;
+    }
+
+    Topic.create(
+      _.assign(req.body, { userId }),
+      { fields: ['userId', 'title', 'text', 'color', 'kind'] }
+    )
+    .then($topic => Promise.all([
+      $topic, $topic.setItems($items), $topic.setTags($tags),
+    ]))
+    .spread($topic => {
+      Topic.findById($topic.id, defaultOptions)
+      .then($$topic => res.status(201).json($$topic));
     });
-
-    return;
-  }
-
-  Topic.create(
-    _.assign(req.body, { userId }),
-    { fields: ['title', 'text', 'type', 'userId'] }
-  ).then($topic => {
-    const $items = Item.findAll({ where: { id: { $in: itemIds.split(',') } } })
-    .then($$items => $topic.addItem($$items));
-
-    return Promise.all([$topic, $items]);
-  }).spread($topic => {
-    Topic.findById($topic.id, defaultOptions)
-    .then($$topic => res.status(201).json($$topic));
   });
 });
 
@@ -112,6 +154,54 @@ router.delete('/:id', (req, res) => {
     }
 
     $topic.destroy();
+    res.status(204).json({ ok: true });
+  });
+});
+
+// Selection Route
+
+selectionRouter.post('/', (req, res) => {
+  if (_.isEmpty(req.user)) {
+    abort(res, 401);
+    return;
+  }
+
+  const { topicId } = req.params;
+  const itemId = _.toInteger(req.body.itemId);
+  const userId = req.user.get('id');
+
+  Selection.findOne({ where: { userId, topicId } })
+  .then($selection => {
+    if (_.isEmpty($selection)) {
+      Promise.all([
+        Selection.create({ userId, itemId, topicId }),
+        ItemMap.findOne({ where: { itemId, itemableId: topicId, itemable: 'topic' } })
+        .then($itemMap => $itemMap.increment('count', { by: 1 })),
+      ])
+      .spread($$selection => res.status(201).json($$selection));
+
+      return;
+    }
+
+    $selection.update({ itemId }).then(() => res.status(201).json($selection));
+  });
+});
+
+selectionRouter.delete('/', (req, res) => {
+  if (_.isEmpty(req.user)) {
+    abort(res, 401);
+    return;
+  }
+
+  const { topicId } = req.params;
+  const userId = req.user.get('id');
+
+  Selection.findOne({ where: { userId, topicId } })
+  .then($selection => {
+    if (!_.isEmpty($selection)) {
+      $selection.destroy();
+    }
+
     res.status(204).json({ ok: true });
   });
 });

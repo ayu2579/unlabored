@@ -24,7 +24,7 @@ const api = store => next => action => {
   const source = _.get(action.payload, 'source');
   const status = _.get(action.payload, 'status', 'status');
   const method = _.toLower(_.get(action.payload, 'method', 'get'));
-  const params = _.get(action.payload, 'params', {});
+  let params = _.get(action.payload, 'params', {});
   const headers = _.get(action.payload, 'headers', {});
 
   const fullPath = path;
@@ -41,7 +41,8 @@ const api = store => next => action => {
 
   next(actionWith({ [status]: 'request' }));
 
-  let data = params;
+  let data = {};
+
   if (!_.isEmpty(files)) {
     data = new FormData();
 
@@ -50,6 +51,8 @@ const api = store => next => action => {
 
       data.append(key, value);
     });
+
+    params = {};
 
     if (_.isPlainObject(files)) {
       _.forEach(files, (file, key) => {
@@ -60,6 +63,14 @@ const api = store => next => action => {
     } else {
       data.append('files', files);
     }
+  } else if (_.includes(['post', 'put'], method)) {
+    _.forEach(params, (value, key) => {
+      if (_.isUndefined(value) || _.isNull(value)) { return; }
+
+      data[key] = value;
+    });
+
+    params = {};
   }
 
   const req = axios(fullPath, {

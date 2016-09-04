@@ -13,7 +13,7 @@ const router = Router();
 /* eslint-enable new-cap */
 
 const defaultOptions = {
-  attributes: ['id', 'userId', 'text', 'createdAt'],
+  attributes: ['id', 'userId', 'text', 'kind', 'createdAt'],
   include: [
     {
       model: Image,
@@ -63,7 +63,7 @@ router.post('/', multipart.single('image'), (req, res) => {
       }
 
       if (!_.isEmpty(req.file) || !_.isEmpty(req.body)) {
-        $item.update(req.body, { fields: ['text'] })
+        $item.update(req.body, { fields: ['text', 'kind'] })
         .then(() => {
           if (!_.isEmpty(req.file)) {
             const dUri = new Datauri();
@@ -101,8 +101,11 @@ router.post('/', multipart.single('image'), (req, res) => {
   if (_.isEmpty(req.file)) {
     Item.create(
       _.assign(req.body, { userId }),
-      { fields: ['text', 'userId'] }
-    ).then($item => res.status(201).json($item));
+      { fields: ['userId', 'text', 'kind'] }
+    ).then($item => {
+      Item.findById($item.id, defaultOptions)
+      .then($$item => res.status(201).json($$item));
+    });
 
     return;
   }

@@ -22,6 +22,9 @@ const Image = sequelize.define('images', {
   deletedAt: Sequelize.DATE,
 }, {
   paranoid: true,
+  getterMethods: {
+    type() { return 'image'; },
+  },
 });
 
 export default Image;

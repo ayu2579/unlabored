@@ -7,10 +7,14 @@ const Selection = sequelize.define('selection', {
     primaryKey: true,
   },
   userId: Sequelize.INTEGER,
-  productMapId: Sequelize.INTEGER,
+  itemId: Sequelize.INTEGER,
+  topicId: Sequelize.INTEGER,
   createdAt: Sequelize.DATE,
+  updatedAt: Sequelize.DATE,
 }, {
-  paranoid: true,
+  getterMethods: {
+    type() { return 'selection'; },
+  },
 });
 
 export default Selection;

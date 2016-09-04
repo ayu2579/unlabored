@@ -4,11 +4,12 @@
   min-height: 54px;
   padding: 14px 0;
   border-bottom: 1px solid #ccc;
+  background-color: white;
   z-index: 1032;
 
   .navbar-header {
     float: initial;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
   }
 
@@ -29,9 +30,12 @@
 	li {
 		float: left;
 
+    a:hover {
+      background-color: transparent;
+    }
+
     &.active a {
       color: #e84c3d;
-      text-decoration: underline;
     }
   }
 }

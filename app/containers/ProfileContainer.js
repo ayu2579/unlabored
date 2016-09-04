@@ -37,7 +37,7 @@ class ProfileContainer extends Component {
     return (
       <div id="profile" className="react-container">
         <NavigationBar
-          title="내꺼내꺼"
+          title={me.nickname}
           rightItems={rightItems}
         />
 
