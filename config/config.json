@@ -10,10 +10,10 @@
     "storage": "test.sqlite3"
   },
   "production": {
-    "username": "fjzvnpacrsepfb",
-    "password": "MVREli0dJiT3EZc77M_NcTVOLL",
-    "database": "d20kf9qqk3165v",
-    "host": "ec2-54-221-201-244.compute-1.amazonaws.com",
+    "username": "xtfshzudjhkqmm",
+    "password": "japPB430epJz8Oag8lrwMksPKe",
+    "database": "dfoh9r3tnv6nhv",
+    "host": "ec2-54-243-212-122.compute-1.amazonaws.com",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": true
