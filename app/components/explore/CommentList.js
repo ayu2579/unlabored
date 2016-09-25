@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { PropTypes } from 'react';
 
 const CommentList = ({ comments }) => (
-  <ul>
+  <ul className="comment-list">
     {
       _.map(comments, ({ id, user, text }) =>
         <li key={id}>

@@ -75,7 +75,7 @@ class AggregationTopic extends Component {
                   <i className="icon-share" />
                 </Button>
               </ButtonGroup>
-              <ul>
+              <ul className="summary">
                 <li>골랐어 4,323</li>
                 <li>댓글 2,394</li>
               </ul>
@@ -94,7 +94,7 @@ class AggregationTopic extends Component {
                   }
                 </div>
             }
-            <CommentList comments={comments} />
+            {!_.isEmpty(comments) && <CommentList comments={comments} />}
           </div>
         }
       >
