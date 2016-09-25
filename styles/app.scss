@@ -10,6 +10,7 @@
 @import './containers/app-container.scss';
 @import './containers/login-container.scss';
 @import './containers/topic-container.scss';
+@import './containers/search-container.scss';
 @import './containers/create-container.scss';
 @import './containers/explore-container.scss';
 @import './containers/profile-container.scss';
@@ -18,6 +19,7 @@
 
 // Custom Components
 @import './components/topic/comment-input.scss';
+@import './components/search/search-bar.scss';
 @import './components/create/color-picker.scss';
 @import './components/create/countable-input.scss';
 @import './components/create/text-form.scss';

@@ -5,6 +5,7 @@ import * as topic from './topicAction';
 import * as create from './createAction';
 import * as explore from './exploreAction';
 import * as profile from './profileAction';
+import * as notification from './notificationAction';
 
 /* ========================================================
  * Contrib Actions
@@ -21,3 +22,4 @@ export const topicAction = topic;
 export const createAction = create;
 export const exploreAction = explore;
 export const profileAction = profile;
+export const notificationAction = notification;

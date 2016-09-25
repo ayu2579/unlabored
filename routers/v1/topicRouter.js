@@ -41,17 +41,25 @@ const defaultOptions = {
 
 router.get('/', (req, res) => {
   const { limit, offset, withComments } = req.query;
-  const userId = !_.isEmpty(req.user) && req.user.get('id');
+  const userId = !_.isEmpty(req.user) ? req.user.get('id') : undefined;
 
   Promise.all([
     Topic.count(),
     Topic.findAll(_.assign({ limit, offset }, defaultOptions)),
   ]).spread((count, data) => {
-    Promise.mapSeries(data, topic => (
-      Promise.all([
+    Promise.mapSeries(data, topic => {
+      topic.dataValues.counts = {};
+
+      return Promise.all([
+        Selection.count({
+          where: { userId, topicId: topic.id },
+        }).then(selection => (topic.dataValues.counts.selection = selection)),
         Selection.findOne({
           where: { userId, topicId: topic.id },
         }).then(selection => (topic.dataValues.selection = selection)),
+        withComments && Comment.count({
+          where: { commentableId: topic.id, commentable: 'topic' },
+        }).then(comment => (topic.dataValues.counts.comment = comment)),
         withComments && Comment.findAll({
           limit: 3,
           order: [[sequelize.col('comments.createdAt'), 'DESC']],
@@ -64,8 +72,8 @@ router.get('/', (req, res) => {
             },
           ],
         }).then(comments => (topic.dataValues.comments = comments)),
-      ])
-    )).then(() => res.status(200).json({ count, data }));
+      ]);
+    }).then(() => res.status(200).json({ count, data }));
   });
 });
 

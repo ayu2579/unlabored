@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import classNames from 'classnames';
+import { numberFormat } from 'underscore.string';
 
 import React, { Component, PropTypes } from 'react';
 import { Panel, ButtonGroup, Button, Image } from 'react-bootstrap';
+import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Avatar } from '../contrib';
 import { VersusTopic, CommentList } from '.';
@@ -40,7 +42,7 @@ class AggregationTopic extends Component {
   render() {
     const { topic } = this.props;
     const { showsShare } = this.state || {};
-    const { user, title, tags, comments } = topic;
+    const { user, title, tags, comments, counts } = topic;
 
     return (
       <Panel
@@ -76,8 +78,12 @@ class AggregationTopic extends Component {
                 </Button>
               </ButtonGroup>
               <ul className="summary">
-                <li>골랐어 4,323</li>
-                <li>댓글 2,394</li>
+                <li>골랐어 {numberFormat(counts.selection)}</li>
+                <li>
+                  <Link to={`/topics/${topic.id}`}>
+                    댓글 {numberFormat(counts.comment)}
+                  </Link>
+                </li>
               </ul>
             </div>
             {
@@ -94,7 +100,12 @@ class AggregationTopic extends Component {
                   }
                 </div>
             }
-            {!_.isEmpty(comments) && <CommentList comments={comments} />}
+            {
+              !_.isEmpty(comments) &&
+                <Link to={`/topics/${topic.id}`}>
+                  <CommentList comments={comments} />
+                </Link>
+            }
           </div>
         }
       >

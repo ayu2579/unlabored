@@ -94,7 +94,7 @@ NavigationBar.defaultProps = {
 };
 
 NavigationBar.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node,
   style: PropTypes.oneOf(['default', 'primary']),
   leftItems: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,

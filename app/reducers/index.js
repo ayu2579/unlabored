@@ -8,7 +8,8 @@ import topic from './topicReducer';
 import create from './createReducer';
 import explore from './exploreReducer';
 import profile from './profileReducer';
+import notification from './notificationReducer';
 
 export default combineReducers({
-  me, login, topic, create, explore, profile, routing,
+  me, login, topic, create, explore, profile, notification, routing,
 });

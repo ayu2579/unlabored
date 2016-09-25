@@ -17,23 +17,18 @@ class TopicContainer extends Component {
   }
 
   render() {
-    const { isExternal } = this.state || {};
-    const { dispatch, topic } = this.props;
+    const { topic } = this.props;
     const { data, fetchCommentsData } = topic;
 
     return (
       <div id="topic" className="react-container">
         <NavigationBar
-          onExit={
-              () => {
-                if (isExternal) {
-                  history.push({ pathname: '/' });
-                  return;
-                }
-
-                dispatch(topicAction.hide());
-              }
-          }
+          leftItems={[
+            {
+              title: '홈',
+              onClick: () => history.push({ pathname: '/' }),
+            },
+          ]}
           title="고르면 비로소 보이는 것들"
         />
 

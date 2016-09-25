@@ -5,8 +5,7 @@ $border-color: #dfdfdf;
 html,
 body,
 #main,
-#app,
-.react-container {
+#app {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -14,6 +13,7 @@ body,
 }
 
 .react-container {
+  min-height: 100%;
   background-color: #fafafa;
 }
 
@@ -47,10 +47,6 @@ textarea {
 
 .container {
   padding: 0;
-}
-
-.react-container {
-  overflow: auto;
 }
 
 .navbar-default .navbar-nav > li > a,
