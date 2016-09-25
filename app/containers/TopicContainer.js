@@ -5,33 +5,21 @@ import React, { Component, PropTypes } from 'react';
 import { history } from '../contrib';
 import { topicAction } from '../actions';
 import { NavigationBar } from '../components/contrib';
-import { AggregationTopic } from '../components/explore';
+import { AggregationTopic, CommentList } from '../components/explore';
 import { CommentInput } from '../components/topic';
 
 class TopicContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    const { params } = props;
-
-    this.state = {
-      isExternal: !_.isEmpty(params),
-    };
-  }
-
   componentDidMount() {
-    const { isExternal } = this.state || {};
     const { dispatch, params } = this.props;
 
-    if (isExternal) {
-      dispatch(topicAction.get(params.id));
-    }
+    dispatch(topicAction.init(params.id));
+    dispatch(topicAction.fetchComments(params.id));
   }
 
   render() {
     const { isExternal } = this.state || {};
     const { dispatch, topic } = this.props;
-    const { data } = topic;
+    const { data, fetchCommentsData } = topic;
 
     return (
       <div id="topic" className="react-container">
@@ -50,6 +38,7 @@ class TopicContainer extends Component {
         />
 
         <AggregationTopic topic={data} />
+        <CommentList comments={fetchCommentsData.data} />
 
         <CommentInput />
       </div>

@@ -15,7 +15,7 @@ const __select__ = createAction(SELECT);
  * ========================================================= */
 
 export const fetch = () => dispatch => dispatch(__fetch__({
-  path: '/api/v1/topics', status: 'fetchStatus', dist: 'fetch',
+  path: '/api/v1/topics', params: { withComments: true }, status: 'fetchStatus', dist: 'fetch',
 }));
 
 export const select = item => dispatch => dispatch(__select__({

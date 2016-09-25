@@ -81,7 +81,7 @@ router.get('/facebook/callback', (req, res) => {
           user.save();
 
           jwt.sign(
-            { id: user.id, email: user.email, username: user.username },
+            _.pick(user, ['id', 'email', 'username']),
             cert.secret,
             { algorithm: 'HS256' },
             (err, token) => {

@@ -6,10 +6,13 @@ const initialState = {
   show: false,
   data: {},
   status: 'waiting',
+  fetchCommentsStatus: 'waiting',
+  fetchCommentsData: {},
 };
 
 export default handleActions({
-  [actions.GET]: (state, action) => _.assign({}, state, action.payload),
+  [actions.INIT]: (state, action) => _.assign({}, state, action.payload),
   [actions.SHOW]: (state, action) => _.assign({}, state, action.payload),
   [actions.HIDE]: (state, action) => _.assign({}, state, action.payload),
+  [actions.FETCH_COMMENTS]: (state, action) => _.assign({}, state, action.payload),
 }, initialState);

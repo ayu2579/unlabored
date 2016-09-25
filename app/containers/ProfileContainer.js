@@ -3,70 +3,59 @@ import { connect } from 'react-redux';
 
 import React, { Component, PropTypes } from 'react';
 import { Grid } from 'react-bootstrap';
+import { loginAction, profileAction } from '../actions';
 import { GlobalNavbar, NavigationBar } from '../components/contrib';
-import { loginAction } from '../actions';
-import { Field } from '../components/profile';
+import { AggregationTopic } from '../components/explore';
+import { UserInfo, EmptyState } from '../components/profile';
 
 class ProfileContainer extends Component {
   componentDidMount() {
-    const { dispatch, me } = this.props;
+    const { dispatch, me, route } = this.props;
 
-    if (_.isEqual(me.status, 'failure')) {
+    if (_.isEqual(me.status, 'failure') && _.isEqual(route.path, 'profile')) {
       dispatch(loginAction.show());
+      return;
     }
+
+    dispatch(profileAction.get());
   }
 
   render() {
-    const { dispatch, me } = this.props;
-
-    const rightItems = [];
-    if (_.isEqual(me.status, 'success')) {
-      rightItems.push({
-        title: '로그아웃',
-        href: '/api/v1/auth/logout',
-      });
-    }
-
-    if (_.isEqual(me.status, 'failure')) {
-      rightItems.push({
-        title: '로그인',
-        onClick: () => dispatch(loginAction.show()),
-      });
-    }
+    const { me, profile, route } = this.props;
+    const { data, topicData } = profile;
 
     return (
       <div id="profile" className="react-container">
         <NavigationBar
-          title={me.nickname}
-          rightItems={rightItems}
+          title={data.nickname}
+          rightItems={[
+            {
+              title: '설정',
+              to: '/settings',
+            },
+          ]}
         />
 
-        <Grid>
-          {
-            (() => {
-              if (_.isEqual(me.status, 'failure')) {
-                return '로그인 해야 할껄?';
-              }
+        {
+          (() => {
+            if (_.isEqual(me.status, 'failure') && _.isEqual(route.path, 'profile')) {
+              return <EmptyState />;
+            }
 
-              return (
-                <div className="form">
-                  <Field
-                    label="닉네임"
-                    name="nickname"
-                  />
-                  <Field
-                    label="이메일"
-                    name="email"
-                  />
-                  <Field
-                    label="내주소"
-                    name="username"
-                  />
-                </div>
-              );
-            })()
-          }
-        </Grid>
+            return (
+              <div>
+                <UserInfo user={data} />
+                <Grid>
+                  {
+                    _.map(topicData.topics, topic =>
+                      <AggregationTopic topic={topic} />
+                    )
+                  }
+                </Grid>
+              </div>
+            );
+          })()
+        }
 
         <GlobalNavbar />
       </div>
@@ -78,7 +67,16 @@ ProfileContainer.propTypes = {
   me: PropTypes.shape({
     status: PropTypes.string.isRequired,
   }).isRequired,
+  route: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  profile: PropTypes.shape({
+    data: PropTypes.object.isRequired,
+    status: PropTypes.string.isRequired,
+    topicData: PropTypes.object.isRequired,
+    topicStatus: PropTypes.string.isRequired,
+  }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect(state => _.pick(state, ['me', 'profile']))(ProfileContainer);
+export default connect(state => _.pick(state, ['me', 'profile', 'routing']))(ProfileContainer);

@@ -3,7 +3,9 @@ import { handleActions } from 'redux-actions';
 import { meAction as actions } from '../../actions';
 
 const initialState = {
-  data: {},
+  data: {
+    counts: {},
+  },
   status: 'waiting',
 };
 

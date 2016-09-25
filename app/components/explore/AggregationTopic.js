@@ -3,8 +3,7 @@ import classNames from 'classnames';
 
 import React, { Component, PropTypes } from 'react';
 import { Panel, ButtonGroup, Button, Image } from 'react-bootstrap';
-import store from '../../store';
-import { topicAction } from '../../actions';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Avatar } from '../contrib';
 import { VersusTopic, CommentList } from '.';
 
@@ -31,15 +30,7 @@ class AggregationTopic extends Component {
       showsShare: false,
     };
 
-    this.handleShowsTopic = this.handleShowsTopic.bind(this);
     this.handleToggleShare = this.handleToggleShare.bind(this);
-  }
-
-  handleShowsTopic() {
-    const { id } = this.props.topic;
-
-    store.dispatch(topicAction.show());
-    store.dispatch(topicAction.get(id));
   }
 
   handleToggleShare() {
@@ -67,9 +58,11 @@ class AggregationTopic extends Component {
           <div>
             <div className="toolbar">
               <ButtonGroup>
-                <Button onClick={this.handleShowsTopic}>
-                  <i className="icon-re" />
-                </Button>
+                <LinkContainer to={`/topics/${topic.id}`}>
+                  <Button>
+                    <i className="icon-re" />
+                  </Button>
+                </LinkContainer>
                 <Button
                   className={
                     classNames({

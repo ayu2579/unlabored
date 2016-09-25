@@ -40,7 +40,7 @@ const defaultOptions = {
 };
 
 router.get('/', (req, res) => {
-  const { limit, offset } = req.query;
+  const { limit, offset, withComments } = req.query;
   const userId = !_.isEmpty(req.user) && req.user.get('id');
 
   Promise.all([
@@ -48,21 +48,23 @@ router.get('/', (req, res) => {
     Topic.findAll(_.assign({ limit, offset }, defaultOptions)),
   ]).spread((count, data) => {
     Promise.mapSeries(data, topic => (
-      Selection.findOne({
-        where: { userId, topicId: topic.id },
-      }).then(selection => (topic.dataValues.selection = selection)),
-      Comment.findAll({
-        limit: 3,
-        order: [[sequelize.col('comments.createdAt'), 'DESC']],
-        where: { commentableId: topic.id, commentable: 'topic' },
-        attributes: ['id', 'text', 'createdAt'],
-        include: [
-          {
-            model: User,
-            attributes: ['id', 'nickname', 'fbId'],
-          },
-        ],
-      }).then(comments => (topic.dataValues.comments = comments))
+      Promise.all([
+        Selection.findOne({
+          where: { userId, topicId: topic.id },
+        }).then(selection => (topic.dataValues.selection = selection)),
+        withComments && Comment.findAll({
+          limit: 3,
+          order: [[sequelize.col('comments.createdAt'), 'DESC']],
+          where: { commentableId: topic.id, commentable: 'topic' },
+          attributes: ['id', 'text', 'createdAt'],
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'fbId'],
+            },
+          ],
+        }).then(comments => (topic.dataValues.comments = comments)),
+      ])
     )).then(() => res.status(200).json({ count, data }));
   });
 });

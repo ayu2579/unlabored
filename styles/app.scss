@@ -17,11 +17,12 @@
 @import './containers/no-match-container.scss';
 
 // Custom Components
-@import './components/profile/field.scss';
+@import './components/topic/comment-input.scss';
 @import './components/create/color-picker.scss';
 @import './components/create/countable-input.scss';
 @import './components/create/text-form.scss';
 @import './components/create/image-form.scss';
 @import './components/explore/aggregation-topic.scss';
 @import './components/explore/versus-topic.scss';
-@import './components/topic/comment-input.scss';
+@import './components/profile/user-info.scss';
+@import './components/settings/field.scss';

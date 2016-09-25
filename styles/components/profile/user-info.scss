@@ -1,0 +1,42 @@
+@import 'bourbon';
+
+$picture-height: 70px;
+
+#user-info {
+  padding: 20px 0;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+
+  .container {
+    min-height: $picture-height;
+    position: relative;
+  }
+
+  .picture {
+    top: 50%;
+    left: 0;
+    width: $picture-height;
+    height: $picture-height;
+    position: absolute;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    @include transform(translateY(-50%));
+  }
+
+  .summary {
+    margin: 10px 0 10px 80px;
+  }
+
+  li {
+    display: inline;
+
+    &:before {
+      content: '∙';
+    }
+
+    &:first-child:before {
+      content: '';
+    }
+  }
+}

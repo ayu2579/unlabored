@@ -7,4 +7,5 @@ export default app => {
   app.use('/api/v1/users', v1.userRouter);
   app.use('/api/v1/items', v1.itemRouter);
   app.use('/api/v1/topics', v1.topicRouter);
+  app.use('/api/v1/comments', v1.commentRouter);
 };

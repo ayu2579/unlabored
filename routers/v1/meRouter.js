@@ -1,6 +1,8 @@
 import _ from 'lodash';
+import Promise from 'bluebird';
 import { Router } from 'express';
 import { abort } from '../../contrib';
+import { Topic, Selection } from '../../models';
 
 /* eslint-disable new-cap */
 const router = Router();
@@ -12,7 +14,14 @@ router.get('/', (req, res) => {
     return;
   }
 
-  res.status(200).json(req.user);
+  Promise.all([
+    Topic.count({ where: { userId: req.user.id } }),
+    Selection.count({ where: { userId: req.user.id } }),
+  ])
+  .spread((countOfTopic, countOfSelection) => {
+    const result = _.assign({ countOfTopic, countOfSelection }, req.user.get({ plain: true }));
+    res.status(200).json(result);
+  });
 });
 
 export default router;
