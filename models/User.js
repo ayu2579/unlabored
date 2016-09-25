@@ -20,7 +20,7 @@ const User = sequelize.define('users', {
   paranoid: true,
   getterMethods: {
     type() { return 'user'; },
-    picture() { return `https://graph.facebook.com/${this.fbId}/picture?height=80&width=300`; },
+    picture() { return `https://graph.facebook.com/${this.fbId}/picture?height=80&width=80`; },
   },
 });
 

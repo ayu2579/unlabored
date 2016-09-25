@@ -82,7 +82,7 @@
       }
     }
 
-    ul {
+    ul.summary {
       float: right;
       margin-top: 1px;
 
@@ -124,4 +124,9 @@
       }
     }
   }
+}
+
+#topic.react-container .aggregation-topic {
+  border-bottom: 0;
+  margin-bottom: 0;
 }
