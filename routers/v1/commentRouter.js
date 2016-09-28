@@ -23,11 +23,9 @@ router.get('/', (req, res) => {
   const { limit, offset } = req.query;
   const where = _.omit(req.query, ['limit', 'offset']);
 
-  Promise.all([
-    Comment.count(),
     // eslint-disable-next-line max-len
-    Comment.findAll(_.assign({ limit, offset, where }, defaultOptions)),
-  ]).spread((count, data) => res.status(200).json({ count, data }));
+  Comment.findAndCountAll(_.assign({ limit, offset, where }, defaultOptions))
+  .then(result => res.status(200).json({ count: result.count, data: result.rows }));
 });
 
 router.post('/', (req, res) => {

@@ -1,23 +1,20 @@
-#topic.react-container,
-#explore.react-container {
-  .comment-list {
-    float: initial;
-    margin: 0 10px;
-    padding: 10px 0;
-    font-family: sans-serif;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+.aggregation-topic .comment-list {
+  float: initial;
+  margin: 0 10px;
+  padding: 10px 0;
+  font-family: sans-serif;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
 
-    li {
-      display: block;
+  li {
+    display: block;
 
-      strong {
-        margin-right: 10px;
-      }
+    strong {
+      margin-right: 10px;
     }
   }
 }
 
-#topic.react-container .comment-list {
+#topic.react-container .aggregation-topic .comment-list {
   margin: 0;
   padding: 10px;
   border-bottom: 1px solid rgba(0,0,0,0.2);

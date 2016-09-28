@@ -47,7 +47,7 @@ class ProfileContainer extends Component {
                 <UserInfo user={data} />
                 <Grid>
                   {
-                    _.map(topicData.topics, topic =>
+                    _.map(topicData.rows, topic =>
                       <AggregationTopic topic={topic} />
                     )
                   }

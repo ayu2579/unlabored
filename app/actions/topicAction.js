@@ -32,13 +32,9 @@ export const postComment = text => (dispatch, getState) => {
   }));
 };
 
-export const fetchComments = () => (dispatch, getState) => {
-  const { id } = getState().topic.data;
-
-  return dispatch(__fetchComments__({
-    path: '/api/v1/comments',
-    dist: 'fetchCommentsData',
-    status: 'fetchCommentsStatus',
-    params: { commentable: 'topic', commentableId: id },
-  }));
-};
+export const fetchComments = id => dispatch => dispatch(__fetchComments__({
+  path: '/api/v1/comments',
+  dist: 'fetchCommentsData',
+  status: 'fetchCommentsStatus',
+  params: { commentable: 'topic', commentableId: id },
+}));

@@ -78,10 +78,10 @@ class AggregationTopic extends Component {
                 </Button>
               </ButtonGroup>
               <ul className="summary">
-                <li>골랐어 {numberFormat(counts.selection)}</li>
+                <li>골랐어 {numberFormat(_.get(counts, 'selection'))}</li>
                 <li>
                   <Link to={`/topics/${topic.id}`}>
-                    댓글 {numberFormat(counts.comment)}
+                    댓글 {numberFormat(_.get(counts, 'comment'))}
                   </Link>
                 </li>
               </ul>

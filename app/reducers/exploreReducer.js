@@ -3,7 +3,7 @@ import { handleActions } from 'redux-actions';
 import { exploreAction as actions } from '../actions';
 
 const initialState = {
-  fetch: {},
+  fetchData: {},
   fetchStatus: 'waiting',
 };
 

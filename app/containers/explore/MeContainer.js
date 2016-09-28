@@ -12,13 +12,13 @@ class MeContainer extends Component {
   }
 
   render() {
-    const { fetch } = this.props.explore;
+    const { fetchData } = this.props.explore;
 
     return (
       <div id="latest" className="react-sub-container">
         <Grid>
           {
-            _.map(fetch.data, (topic, key) =>
+            _.map(fetchData.rows, (topic, key) =>
               <AggregationTopic key={key} topic={topic} />
             )
           }
@@ -30,9 +30,9 @@ class MeContainer extends Component {
 
 MeContainer.propTypes = {
   explore: PropTypes.shape({
-    fetch: PropTypes.shape({
+    fetchData: PropTypes.shape({
       count: PropTypes.number,
-      data: PropTypes.array,
+      rows: PropTypes.array,
     }),
   }).isRequired,
   dispatch: PropTypes.func.isRequired,

@@ -5,3 +5,4 @@ export { default as userRouter } from './userRouter';
 export { default as itemRouter } from './itemRouter';
 export { default as topicRouter } from './topicRouter';
 export { default as commentRouter } from './commentRouter';
+export { default as notificationRouter } from './notificationRouter';

@@ -1,3 +1,4 @@
+import Promise from 'bluebird';
 import { Router } from 'express';
 import { Tag } from '../../models';
 
@@ -6,7 +7,9 @@ const router = Router();
 /* eslint-enable new-cap */
 
 router.get('/', (req, res) => {
-  Tag.findAll()
+  const { limit, offset } = req.query;
+
+  Tag.findAndCountAll({ limit, offset })
   .then(result => res.status(200).send(result));
 });
 

@@ -24,7 +24,7 @@ gulp.task('style', function () {
   const includePaths = require('node-bourbon').includePaths;
 
   return gulp.src('styles/**/*.scss')
-  .pipe(plumber({ errorHandler: (err) => { console.log(err); this.emit('end'); } }))
+  .pipe(plumber({ errorHandler: err => console.log(err) }))
   .pipe(sourcemaps.init())
   .pipe(sass({ outputStyle: 'compressed', includePaths: includePaths }))
   .pipe(sourcemaps.write())

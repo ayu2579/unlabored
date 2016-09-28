@@ -43,16 +43,14 @@ router.get('/', (req, res) => {
   const { limit, offset, withComments } = req.query;
   const userId = !_.isEmpty(req.user) ? req.user.get('id') : undefined;
 
-  Promise.all([
-    Topic.count(),
-    Topic.findAll(_.assign({ limit, offset }, defaultOptions)),
-  ]).spread((count, data) => {
-    Promise.mapSeries(data, topic => {
+  Topic.findAndCountAll(_.assign({ limit, offset }, defaultOptions))
+  .then(({ count, rows }) => {
+    Promise.mapSeries(rows, topic => {
       topic.dataValues.counts = {};
 
       return Promise.all([
         Selection.count({
-          where: { userId, topicId: topic.id },
+          where: { topicId: topic.id },
         }).then(selection => (topic.dataValues.counts.selection = selection)),
         Selection.findOne({
           where: { userId, topicId: topic.id },
@@ -73,19 +71,27 @@ router.get('/', (req, res) => {
           ],
         }).then(comments => (topic.dataValues.comments = comments)),
       ]);
-    }).then(() => res.status(200).json({ count, data }));
+    }).then(() => res.status(200).json({ count, rows }));
   });
 });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  const userId = !_.isEmpty(req.user) ? req.user.get('id') : undefined;
 
-  Topic.findById(id, defaultOptions).then($topic => {
+  Promise.all([
+    Topic.findById(id, defaultOptions),
+    Selection.count({ where: { topicId: id } }),
+    _.isUndefined(userId) ? Selection.findOne({ where: { userId, topicId: id } }) : undefined,
+    Comment.count({ where: { commentableId: id, commentable: 'topic' } }),
+  ]).spread(($topic, selection, $selection, comment) => {
     if (_.isEmpty($topic)) {
       abort(res, 404);
       return;
     }
 
+    $topic.dataValues.selection = $selection;
+    $topic.dataValues.counts = { selection, comment };
     res.status(200).send($topic);
   });
 });

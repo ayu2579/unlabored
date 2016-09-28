@@ -1,13 +1,16 @@
+import _ from 'lodash';
+import { connect } from 'react-redux';
+
 import React from 'react';
 import { GlobalNavbar } from '../components/contrib';
-import { SearchBar, TagList } from '../components/search';
+import { SearchBar, SuggestedList } from '../components/search';
 
 const SearchContainer = () => (
   <div id="search" className="react-container">
     <SearchBar />
-    <TagList />
+    <SuggestedList />
     <GlobalNavbar />
   </div>
 );
 
-export default SearchContainer;
+export default connect(state => _.pick(state, ['search']))(SearchContainer);
