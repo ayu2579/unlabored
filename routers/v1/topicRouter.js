@@ -190,7 +190,10 @@ selectionRouter.post('/', (req, res) => {
   .then($selection => {
     if (_.isEmpty($selection)) {
       Promise.all([
-        Selection.create({ userId, itemId, topicId }),
+        Selection.create(
+          { userId, itemId, topicId },
+          { fields: ['userId', 'itemId', 'topicId'] }
+        ),
         ItemMap.findOne({ where: { itemId, itemableId: topicId, itemable: 'topic' } })
         .then($itemMap => $itemMap.increment('count', { by: 1 })),
       ])
@@ -207,7 +210,7 @@ selectionRouter.post('/', (req, res) => {
     }
 
     Promise.all([
-      $selection.update({ itemId }),
+      $selection.update({ itemId }, { fields: ['itemId'] }),
       ItemMap.findOne({ where: {
         itemId: prevItemId, itemableId: topicId, itemable: 'topic' },
       }).then($itemMap => $itemMap.decrement('count', { by: 1 })),
