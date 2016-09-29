@@ -15,11 +15,16 @@ const __select__ = createAction(SELECT);
  * ========================================================= */
 
 export const fetch = () => dispatch => dispatch(__fetch__({
-  path: '/api/v1/topics', params: { withComments: true }, status: 'fetchStatus', dist: 'fetchData',
+  path: '/api/v1/topics',
+  params: { withComments: true },
+  dist: 'fetchData',
+  status: 'fetchStatus',
 }));
 
 export const select = item => dispatch => dispatch(__select__({
-  path: `api/v1/topics/${item.itemMap.itemableId}/selections`,
+  path: `/api/v1/topics/${item.itemMaps.itemableId}/selections`,
   method: 'post',
   params: { itemId: item.id },
+  dist: 'selectData',
+  status: 'selectStatus',
 }));

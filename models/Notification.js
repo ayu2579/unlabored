@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
-import { sequelize, User, Image } from '.';
+import { sequelize } from '.';
 
-const Notification = sequelize.define('items', {
+const Notification = sequelize.define('notifications', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -9,11 +9,11 @@ const Notification = sequelize.define('items', {
   },
   userId: Sequelize.INTEGER,
   text: Sequelize.STRING,
-  kind: Sequelize.STRING,
-  createdAt: Sequelize.DATE,
+  action: Sequelize.STRING,
+  payload: Sequelize.STRING,
   updatedAt: Sequelize.DATE,
+  createdAt: Sequelize.DATE,
 }, {
-  paranoid: true,
   getterMethods: {
     type() { return 'notification'; },
   },

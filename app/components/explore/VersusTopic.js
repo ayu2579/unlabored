@@ -3,6 +3,8 @@ import classNames from 'classnames';
 
 import React, { Component, PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
+import store from '../../store';
+import { exploreAction } from '../../actions';
 import { Item } from '.';
 
 class VersusTopic extends Component {
@@ -12,7 +14,9 @@ class VersusTopic extends Component {
     this.handleSelect = this.handleSelect.bind(this);
   }
 
-  handleSelect() {
+  handleSelect(item) {
+    store.dispatch(exploreAction.select(item))
+    .then(selection => this.setState({ selection }));
   }
 
   render() {
@@ -34,7 +38,6 @@ class VersusTopic extends Component {
               <Item
                 kind={kind}
                 item={item}
-                onClick={this.handleSelect}
               />
             </Col>
           )
@@ -49,6 +52,7 @@ VersusTopic.propTypes = {
     kind: PropTypes.oneOf(['text', 'image']),
     items: PropTypes.array,
     color: PropTypes.string,
+    selection: PropTypes.object,
   }).isRequired,
 };
 

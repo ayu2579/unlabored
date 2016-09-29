@@ -199,7 +199,21 @@ selectionRouter.post('/', (req, res) => {
       return;
     }
 
-    $selection.update({ itemId }).then(() => res.status(201).json($selection));
+    const prevItemId = $selection.get('itemId');
+
+    if (_.isEqual(itemId, prevItemId)) {
+      res.status(201).json($selection);
+      return;
+    }
+
+    Promise.all([
+      $selection.update({ itemId }),
+      ItemMap.findOne({ where: {
+        itemId: prevItemId, itemableId: topicId, itemable: 'topic' },
+      }).then($itemMap => $itemMap.decrement('count', { by: 1 })),
+      ItemMap.findOne({ where: { itemId, itemableId: topicId, itemable: 'topic' } })
+      .then($itemMap => $itemMap.increment('count', { by: 1 })),
+    ]).spread($$selection => res.status(201).json($$selection));
   });
 });
 
@@ -215,10 +229,17 @@ selectionRouter.delete('/', (req, res) => {
   Selection.findOne({ where: { userId, topicId } })
   .then($selection => {
     if (!_.isEmpty($selection)) {
-      $selection.destroy();
+      abort(res, 404);
+      return;
     }
 
-    res.status(204).json({ ok: true });
+    const { itemId } = $selection.dataValues;
+
+    Promise.all([
+      $selection.destroy(),
+      ItemMap.findOne({ where: { itemId, itemableId: topicId, itemable: 'topic' } })
+      .then($itemMap => $itemMap.decrement('count', { by: 1 })),
+    ]).spread(() => res.status(204).json({ ok: true }));
   });
 });
 

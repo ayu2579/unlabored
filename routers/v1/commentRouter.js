@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
 import { Router } from 'express';
 import { abort } from '../../contrib';
 import { sequelize, User, Comment } from '../../models';

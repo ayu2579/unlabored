@@ -17,24 +17,28 @@ const __fetchComments__ = createAction(FETCH_COMMENTS);
  * ========================================================= */
 
 export const init = id => dispatch => dispatch(__init__({
-  path: `/api/v1/topics/${id}`,
+  path: `/api/v1/topics/${id}`, topicId: id,
 }));
 
 export const postComment = text => (dispatch, getState) => {
-  const { id } = getState().topic.data;
+  const { topicId } = getState().topic;
 
   return dispatch(__postComment__({
     method: 'post',
     path: '/api/v1/comments',
     dist: 'postCommentData',
     status: 'postCommentStatus',
-    params: { commentable: 'topic', commentableId: id, text },
+    params: { commentable: 'topic', commentableId: topicId, text },
   }));
 };
 
-export const fetchComments = id => dispatch => dispatch(__fetchComments__({
-  path: '/api/v1/comments',
-  dist: 'fetchCommentsData',
-  status: 'fetchCommentsStatus',
-  params: { commentable: 'topic', commentableId: id },
-}));
+export const fetchComments = () => (dispatch, getState) => {
+  const { topicId } = getState().topic;
+
+  return dispatch(__fetchComments__({
+    path: '/api/v1/comments',
+    dist: 'fetchCommentsData',
+    status: 'fetchCommentsStatus',
+    params: { commentable: 'topic', commentableId: topicId },
+  }));
+};

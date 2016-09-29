@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
+import store from '../../store';
 import { exploreAction } from '../../actions';
 
 class Item extends Component {
@@ -14,7 +15,7 @@ class Item extends Component {
   handleSelect(e) {
     const { item, onSelect } = this.props;
 
-    exploreAction.select(item);
+    store.dispatch(exploreAction.select(item));
     onSelect(e);
   }
 

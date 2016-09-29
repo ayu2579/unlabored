@@ -13,7 +13,7 @@ class TopicContainer extends Component {
     const { dispatch, params } = this.props;
 
     dispatch(topicAction.init(params.id));
-    dispatch(topicAction.fetchComments(params.id));
+    dispatch(topicAction.fetchComments());
   }
 
   render() {
