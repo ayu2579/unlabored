@@ -101,7 +101,7 @@ class CreateContainer extends Component {
     return (
       <div id="create" className="react-container">
         <NavigationBar
-          title="사진 두장만 골라봐"
+          title="궁금한거물어봐"
           onExit={this.handleExit}
         />
 
@@ -129,10 +129,10 @@ class CreateContainer extends Component {
             activeKey={kind}
             onSelect={this.handleSelect}
           >
-            <Tab eventKey="text" title="텍스트">
+            <Tab eventKey="text" title="적어보자">
               <TextForm />
             </Tab>
-            <Tab eventKey="image" title="이미지">
+            <Tab eventKey="image" title="사진고르자">
               <ImageForm />
             </Tab>
           </Tabs>

@@ -41,7 +41,7 @@ class CommentInput extends Component {
           disabled={_.isEmpty(value) || !_.isEqual(status, 'success')}
           onClick={this.handleSubmit}
         >
-          전송
+          라고생각
         </Button>
       </div>
     );

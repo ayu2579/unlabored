@@ -12,7 +12,7 @@ const UserInfo = ({ user }) => {
       <Grid>
         <Dropzone
           style={{
-            backgroundImage: `url("${picture}")`,
+            backgroundImage: `url('${picture}')`,
           }}
           className="picture"
         />

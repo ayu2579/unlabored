@@ -51,6 +51,7 @@ class LoginContainer extends Component {
               return (
                 <div id="start">
                   <Button onClick={this.handleActive}>한다</Button>
+                  <div className="vs">VS</div>
                   <Button onClick={this.handleHide}>안한다</Button>
                 </div>
               );

@@ -13,3 +13,7 @@ docker-compose.yml
 
 # SQLite
 *.sqlite3
+
+# Generated Files
+public/dist/app.js
+public/stylesheets/app.css

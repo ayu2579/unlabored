@@ -15,9 +15,17 @@
   }
 }
 
-#topic.react-container .aggregation-topic .comment-list {
+#topic.react-container .comment-list {
   margin: 0;
   padding: 10px;
   border-bottom: 1px solid rgba(0,0,0,0.2);
   background-color: white;
+
+  ul {
+    padding: 5px;
+  }
+
+  li strong {
+    padding: 5px;
+  }
 }
