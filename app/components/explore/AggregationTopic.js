@@ -32,7 +32,13 @@ class AggregationTopic extends Component {
       showsShare: false,
     };
 
+    this.handleSelect = this.handleSelect.bind(this);
     this.handleToggleShare = this.handleToggleShare.bind(this);
+  }
+
+  handleSelect(e, promise) {
+    this.setState({ disabled: true });
+    promise.then(() => this.setState({ disabled: false }));
   }
 
   handleToggleShare() {
@@ -42,11 +48,16 @@ class AggregationTopic extends Component {
   render() {
     const { topic } = this.props;
     const { showsShare } = this.state || {};
-    const { user, title, tags, comments, counts } = topic;
+    const { user, title, selection, tags, comments, counts } = topic;
 
     return (
       <Panel
-        className="aggregation-topic"
+        className={
+          classNames({
+            'aggregation-topic': true,
+            selected: !_.isEmpty(selection),
+          })
+        }
         header={
           <div>
             <Avatar user={user} imageOnly />
@@ -109,7 +120,7 @@ class AggregationTopic extends Component {
           </div>
         }
       >
-        <VersusTopic topic={topic} />
+        <VersusTopic topic={topic} onSelect={this.handleSelect} />
       </Panel>
     );
   }

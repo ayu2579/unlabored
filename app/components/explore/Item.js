@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
@@ -13,19 +14,28 @@ class Item extends Component {
   }
 
   handleSelect(e) {
-    const { item, onSelect } = this.props;
+    const { item, topic, onSelect } = this.props;
+    const { itemId } = topic.selection || {};
+    const action = _.isEqual(item.id, itemId) ? 'deselect' : 'select';
+    const promise = store.dispatch(exploreAction[action](item));
 
-    store.dispatch(exploreAction.select(item));
-    onSelect(e);
+    onSelect(e, promise);
   }
 
   render() {
-    const { kind, item } = this.props;
+    const { kind, item, topic, disabled } = this.props;
     const { text, images } = item;
+    const { itemId } = topic.selection || {};
 
     return (
       <Button
-        className="item"
+        disabled={disabled}
+        className={
+          classNames({
+            item: true,
+            selected: _.isEqual(item.id, itemId),
+          })
+        }
         onClick={this.handleSelect}
       >
         {
@@ -50,6 +60,7 @@ class Item extends Component {
 }
 
 Item.defaultProps = {
+  disabled: false,
   onSelect: () => {},
 };
 
@@ -59,6 +70,10 @@ Item.propTypes = {
     text: PropTypes.string,
     images: PropTypes.array,
   }).isRequired,
+  topic: PropTypes.shape({
+    selection: PropTypes.object,
+  }),
+  disabled: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 

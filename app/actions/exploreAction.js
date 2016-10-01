@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 
 export const FETCH = '[API] EXPLORE_FETCH';
 export const SELECT = '[API] EXPLORE_SELECT';
+export const DESELECT = '[API] EXPLORE_DESELECT';
 
 /* =========================================================
  * Internal Actions
@@ -9,6 +10,7 @@ export const SELECT = '[API] EXPLORE_SELECT';
 
 const __fetch__ = createAction(FETCH);
 const __select__ = createAction(SELECT);
+const __deselect__ = createAction(DESELECT);
 
 /* =========================================================
  * Actions
@@ -27,4 +29,12 @@ export const select = item => dispatch => dispatch(__select__({
   params: { itemId: item.id },
   dist: 'selectData',
   status: 'selectStatus',
+}));
+
+export const deselect = item => dispatch => dispatch(__deselect__({
+  path: `/api/v1/topics/${item.itemMaps.itemableId}/selections`,
+  method: 'delete',
+  dist: 'deselectData',
+  status: 'deselectStatus',
+  deselectedTopicId: item.itemMaps.itemableId,
 }));

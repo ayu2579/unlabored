@@ -231,7 +231,7 @@ selectionRouter.delete('/', (req, res) => {
 
   Selection.findOne({ where: { userId, topicId } })
   .then($selection => {
-    if (!_.isEmpty($selection)) {
+    if (_.isEmpty($selection)) {
       abort(res, 404);
       return;
     }

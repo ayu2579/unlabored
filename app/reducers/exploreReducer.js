@@ -23,4 +23,19 @@ export default handleActions({
 
     return _.assign({}, state, action.payload);
   },
+  [actions.DESELECT]: (state, action) => {
+    const { rows } = state.fetchData;
+    const { deselectStatus, deselectedTopicId } = action.payload;
+
+    if (!_.isEqual(deselectStatus, 'success')) {
+      return _.assign({}, state, action.payload);
+    }
+
+    const topicId = _.toInteger(deselectedTopicId);
+    delete action.payload.deselectedTopicId;
+
+    _.forEach(rows, r => _.isEqual(r.id, _.toInteger(topicId)) && (r.selection = undefined));
+
+    return _.assign({}, state, action.payload);
+  },
 }, initialState);

@@ -1,51 +1,45 @@
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
-import store from '../../store';
-import { exploreAction } from '../../actions';
 import { Item } from '.';
 
-class VersusTopic extends Component {
-  constructor(props) {
-    super(props);
+const VersusTopic = ({ topic, disabled, onSelect }) => {
+  const { kind, items, color } = topic;
 
-    this.handleSelect = this.handleSelect.bind(this);
-  }
+  return (
+    <div
+      className={
+        classNames({
+          [kind]: true,
+          'versus-topic': true,
+          disabled,
+        })
+      }
+      style={_.isEqual(kind, 'text') ? { backgroundColor: color } : undefined}
+    >
+      {
+        _.map(items, item =>
+          <Col key={item.id} xs={6}>
+            <Item
+              kind={kind}
+              item={item}
+              topic={topic}
+              disabled={disabled}
+              onSelect={onSelect}
+            />
+          </Col>
+        )
+      }
+    </div>
+  );
+};
 
-  handleSelect(item) {
-    store.dispatch(exploreAction.select(item))
-    .then(selection => this.setState({ selection }));
-  }
-
-  render() {
-    const { kind, items, color } = this.props.topic;
-
-    return (
-      <div
-        className={
-          classNames({
-            [kind]: true,
-            'versus-topic': true,
-          })
-        }
-        style={_.isEqual(kind, 'text') ? { backgroundColor: color } : undefined}
-      >
-        {
-          _.map(items, item =>
-            <Col key={item.id} xs={6}>
-              <Item
-                kind={kind}
-                item={item}
-              />
-            </Col>
-          )
-        }
-      </div>
-    );
-  }
-}
+VersusTopic.defaultProps = {
+  disabled: false,
+  onSelect: () => {},
+};
 
 VersusTopic.propTypes = {
   topic: PropTypes.shape({
@@ -54,6 +48,8 @@ VersusTopic.propTypes = {
     color: PropTypes.string,
     selection: PropTypes.object,
   }).isRequired,
+  disabled: PropTypes.bool.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default VersusTopic;
